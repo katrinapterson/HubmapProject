@@ -9,9 +9,8 @@ namespace HubmapProject
     {
         static void Main(string[] args)
         {
-            Console.WriteLine();
 
-            var bupInformationProvider = new BupInformationProvider(@"../../../../bup_data.csv");
+            var bupInformationProvider = new BupInformationProvider(@"../../../Resources/bup_data.csv");
             bupInformationProvider.GenerateBupInfos();
             var bupInfos = bupInformationProvider.GetBupInfos();
 
@@ -19,6 +18,8 @@ namespace HubmapProject
 
             //linq
             var accessionBupInfos2 = bupInfos.Where(x => x.UniprotAccession == "A0A096LP01");
+
+
         }
     }
 

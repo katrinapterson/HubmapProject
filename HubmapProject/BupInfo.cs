@@ -9,7 +9,7 @@ namespace HubmapProject
     public class BupInfo
     {
         public BupInfo(string uniprotAccession, string uniprotName, string geneDescription, 
-            string commonTissue, string dataset, string abundance, string rank, string normRank)
+            string commonTissue, string dataset, double abundance, int rank, double normRank)
         {
             UniprotAccession = uniprotAccession;
             UniprotName = uniprotName;
@@ -26,8 +26,8 @@ namespace HubmapProject
         public string GeneDescription { get; set; }
         public string CommonTissue { get; set; }
         public string Dataset { get; set; }
-        public string Abundance { get; set; }
-        public string Rank { get; set; }
-        public string NormRank { get; set; }
+        public double Abundance { get; set; }
+        public int Rank { get; set; }
+        public double NormRank { get; set; }
     }
 }

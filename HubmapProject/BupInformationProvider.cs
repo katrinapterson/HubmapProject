@@ -24,15 +24,40 @@ namespace HubmapProject
                 {
                     var lines = reader.ReadLine();
                     var values = lines.Split(",");
+
+                    double toDouble(string value)
+                    {
+                        if (double.TryParse(value, out double i))
+                        {
+                            return i;
+                        }
+                        else
+                        {
+                            return 0.0;
+                        }
+                    }
+
+                    int toInt(string value)
+                    {
+                        if (int.TryParse(value, out int i))
+                        {
+                            return i;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+
                     BupInfo aBup = new BupInfo(
                         values[0],
                         values[1],
                         values[2],
                         values[3],
                         values[4],
-                        values[5],
-                        values[6],
-                        values[7]);
+                        toDouble(values[5]),
+                        toInt(values[6]),
+                        toDouble(values[7]));
 
                     _bupInfos.Add(aBup);
                 }
@@ -55,5 +80,6 @@ namespace HubmapProject
         }
 
         public IEnumerable<BupInfo> GetBupInfos() => _bupInfos.Where(a => a != null);
+
     }
 }
