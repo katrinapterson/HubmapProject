@@ -1,0 +1,66 @@
+﻿@page "/BupData"
+
+<PageTitle>Bup Data</PageTitle>
+
+
+@using HubmapProject
+@inject BupInformationProvider BupInfoProvider
+
+
+
+<h1>Bup Data</h1>
+
+
+
+
+@if (bupInfos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Uniprot Accession</th>
+                <th>Uniprot Name</th>
+                <th>Gene Description</th>
+                <th>Common Tissue</th>
+                <th>Dataset</th>
+                <th>Abundance</th>
+                <th>Rank</th>
+                <th>Norm Rank</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bupInfo in bupInfos)
+            {
+            <tr>
+                <td>@bupInfo.UniprotAccession</td>
+                <td>@bupInfo.UniprotName</td>
+                <td>@bupInfo.GeneDescription</td>
+                <td>@bupInfo.CommonTissue</td>
+                <td>@bupInfo.Dataset</td>
+                <td>@bupInfo.Abundance</td>
+                <td>@bupInfo.Rank</td>
+                <td>@bupInfo.NormRank</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+
+    private IEnumerable<BupInfo> bupInfos = Enumerable.Empty<BupInfo>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var bupInformationProvider = new BupInformationProvider(@"../HubmapProject/Resources/bup_data.csv");
+        bupInformationProvider.GenerateBupInfos();
+        bupInfos = bupInformationProvider.GetBupInfos();
+    }
+}
+
