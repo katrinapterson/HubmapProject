@@ -3,47 +3,81 @@
 <PageTitle>Weather forecast</PageTitle>
 
 @using HubmapBlazor.Data
+@using MudBlazor
 @inject WeatherForecastService ForecastService
 
 <h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
-@if (forecasts == null)
+
+
+@if (forecasts != null)
 {
-    <p><em>Loading...</em></p>
+    <MudDataGrid MultiSelection="true" Items="@forecasts" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Weather</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Small" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <Columns>
+            <Column T="WeatherForecast" Field="Date" Title="Date" Sortable="false" Filterable="false" />
+            <Column T="WeatherForecast" Field="TemperatureC" />
+            <Column T="WeatherForecast" Field="TemperatureF" />
+            <Column T="WeatherForecast" Field="Summary" SortBy="@_sortBy"  />
+        </Columns>
+        <PagerContent>
+            <MudDataGridPager T="WeatherForecast" />
+        </PagerContent>
+    </MudDataGrid>
+
 }
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+
+
+
+<div class="d-flex flex-wrap mt-4">
+    <MudSwitch @bind-Checked="@_sortNameByLength" Color="Color.Primary">Sort Name Column By Length</MudSwitch>
+</div>
+
 
 @code {
     private WeatherForecast[]? forecasts;
+
+
+   
+    private string _searchString;
+    private bool _sortNameByLength;
+    // custom sort by name length
+
+    private Func<WeatherForecast, object> _sortBy => x =>
+    {
+        if (_sortNameByLength)
+            return x.Summary.Length;
+
+        else
+            return x.Summary;
+
+    };
+    // quick filter - filter gobally across multiple columns with the same input
+    private Func<WeatherForecast, bool> _quickFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
+
+        if (x.Summary.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if ($"{x.Date}".Contains(_searchString))
+            return true;
+
+        return false;
+    };
 
     protected override async Task OnInitializedAsync()
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
     }
+
 }
 

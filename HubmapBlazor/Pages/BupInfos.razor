@@ -4,7 +4,7 @@
 
 
 @using HubmapProject
-@inject BupInformationProvider BupInfoProvider
+@using MudBlazor
 
 
 
@@ -35,26 +35,30 @@ else
         <tbody>
             @foreach (var bupInfo in bupInfos)
             {
-            <tr>
-                <td>@bupInfo.UniprotAccession</td>
-                <td>@bupInfo.UniprotName</td>
-                <td>@bupInfo.GeneDescription</td>
-                <td>@bupInfo.CommonTissue</td>
-                <td>@bupInfo.Dataset</td>
-                <td>@bupInfo.Abundance</td>
-                <td>@bupInfo.Rank</td>
-                <td>@bupInfo.NormRank</td>
-            </tr>
+                <tr>
+                    <td>@bupInfo.UniprotAccession</td>
+                    <td>@bupInfo.UniprotName</td>
+                    <td>@bupInfo.GeneDescription</td>
+                    <td>@bupInfo.CommonTissue</td>
+                    <td>@bupInfo.Dataset</td>
+                    <td>@bupInfo.Abundance</td>
+                    <td>@bupInfo.Rank</td>
+                    <td>@bupInfo.NormRank</td>
+                </tr>
             }
         </tbody>
     </table>
 }
 
+<MudPagination Color="Color.Primary" Count="4" @bind-Selected="@_selected" />
 
+<MudText Align="Align.Center">Selected page: @_selected</MudText>
 
 @code {
 
     private IEnumerable<BupInfo> bupInfos = Enumerable.Empty<BupInfo>();
+
+    private int _selected = 1;
 
     protected override async Task OnInitializedAsync()
     {

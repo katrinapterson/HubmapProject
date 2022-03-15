@@ -1,0 +1,71 @@
+﻿
+@page "/AntibodyTable"
+
+<PageTitle>Antibody Table</PageTitle>
+
+
+@using HubmapProject
+
+
+
+<h3>Antibody Table</h3>
+
+
+
+@if (antibodyTableInfos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Gene</th>
+                <th>Antibody ID</th>
+                <th>Antibody Name</th>
+                <th>Target Antigen</th>
+                <th>Clonality</th>
+                <th>Reference</th>
+                <th>Clone ID</th>
+                <th>Host Organism</th>
+                <th>Vendor</th>
+                <th>Cat Num</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var antibodyTableInfo in antibodyTableInfos)
+            {
+            <tr>
+                <td>@antibodyTableInfo.Gene</td>
+                <td>@antibodyTableInfo.AntibodyID</td>
+                <td>@antibodyTableInfo.AntibodyName</td>
+                <td>@antibodyTableInfo.TargetAntigen</td>
+                <td>@antibodyTableInfo.Clonality</td>
+                <td>@antibodyTableInfo.Reference</td>
+                <td>@antibodyTableInfo.CloneID</td>
+                <td>@antibodyTableInfo.HostOrganism</td>
+                <td>@antibodyTableInfo.Vendor</td>
+                <td>@antibodyTableInfo.CatNum</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+
+    private IEnumerable<AntibodyTableInfo> antibodyTableInfos = Enumerable.Empty<AntibodyTableInfo>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var antibodyTableProvider = new AntibodyTableProvider(@"../HubmapProject/Resources/antibody_table_unconjugated.tsv");
+        antibodyTableProvider.GenerateAntibodyTableInfos();
+        antibodyTableInfos = antibodyTableProvider.GetAntibodyTableInfo();
+    }
+
+
+}
+

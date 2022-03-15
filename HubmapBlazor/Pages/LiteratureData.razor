@@ -1,0 +1,74 @@
+﻿@page "/LiteratureData"
+
+<PageTitle>Literature Data</PageTitle>
+
+
+@using HubmapProject
+
+<h3>Literature Data</h3>
+
+
+@if (literatureInfos == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Gene</th>
+                <th>Ensembl</th>
+                <th>Uniprot Accession</th>
+                <th>Gene Description</th>
+                <th>HPA Evidence</th>
+                <th>RNA Tissue Specificity</th>
+                <th>RNA Tissue Specificity Score</th>
+                <th>RNA Tissue Specific NX</th>
+                <th>Uniprot Name</th>
+                <th>Mass</th>
+                <th>GO Annotations</th>
+                <th>Gene ID</th>
+                <th>Pubmed Citations</th>
+                <th>Antibody Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var literatureInfo in literatureInfos)
+            {
+            <tr>
+                <td>@literatureInfo.Gene</td>
+                <td>@literatureInfo.Ensembl</td>
+                <td>@literatureInfo.UniprotAccession</td>
+                <td>@literatureInfo.GeneDescription</td>
+                <td>@literatureInfo.HPAEvidence</td>
+                <td>@literatureInfo.RNATissueSpecificity</td>
+                <td>@literatureInfo.RNATissueSpecificityScore</td>
+                <td>@literatureInfo.RNATissueSpecicNX</td>
+                <td>@literatureInfo.UniprotName</td>
+                <td>@literatureInfo.Mass</td>
+                <td>@literatureInfo.GOAnnotations</td>
+                <td>@literatureInfo.GeneID</td>
+                <td>@literatureInfo.PubmedCitations</td>
+                <td>@literatureInfo.AntibodyCount</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+
+    private IEnumerable<LiteratureInfo> literatureInfos = Enumerable.Empty<LiteratureInfo>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var literatureInfoProvider = new LiteratureInfoProvider(@"../HubmapProject/Resources/literature_data.csv");
+        literatureInfoProvider.GenerateLiteratureInfos();
+        literatureInfos = literatureInfoProvider.GetLiteratureInfos();
+    }
+    
+}
+

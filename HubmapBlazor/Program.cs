@@ -2,13 +2,23 @@
 using Microsoft.AspNetCore.Components.Web;
 using HubmapBlazor.Data;
 using HubmapProject;
+using MudBlazor;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
 builder.Services.AddSingleton(_ => new BupInformationProvider("file path"));
+builder.Services.AddSingleton(_ => new AntibodyCountProvider("file path"));
+builder.Services.AddSingleton(_ => new AntibodyTableProvider("file path"));
+builder.Services.AddSingleton(_ => new LiteratureInfoProvider("file path"));
+builder.Services.AddSingleton(_ => new WeatherForecastService());
+
+builder.Services.AddMudServices();
+
 
 var app = builder.Build();
 
