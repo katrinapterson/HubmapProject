@@ -1,58 +1,33 @@
 ﻿
 @page "/AntibodyTable"
 
-<PageTitle>Antibody Table</PageTitle>
+
+<h1>Antibody Table</h1>
 
 
-@using HubmapProject
-
-
-
-<h3>Antibody Table</h3>
-
-
-
-@if (antibodyTableInfos == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Gene</th>
-                <th>Antibody ID</th>
-                <th>Antibody Name</th>
-                <th>Target Antigen</th>
-                <th>Clonality</th>
-                <th>Reference</th>
-                <th>Clone ID</th>
-                <th>Host Organism</th>
-                <th>Vendor</th>
-                <th>Cat Num</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var antibodyTableInfo in antibodyTableInfos)
-            {
-            <tr>
-                <td>@antibodyTableInfo.Gene</td>
-                <td>@antibodyTableInfo.AntibodyID</td>
-                <td>@antibodyTableInfo.AntibodyName</td>
-                <td>@antibodyTableInfo.TargetAntigen</td>
-                <td>@antibodyTableInfo.Clonality</td>
-                <td>@antibodyTableInfo.Reference</td>
-                <td>@antibodyTableInfo.CloneID</td>
-                <td>@antibodyTableInfo.HostOrganism</td>
-                <td>@antibodyTableInfo.Vendor</td>
-                <td>@antibodyTableInfo.CatNum</td>
-            </tr>
-            }
-        </tbody>
-    </table>
-}
-
+<MudDataGrid MultiSelection="true" Items="@antibodyTableInfos" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Antibody Table</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <Columns>
+        <Column T="AntibodyTableInfo" Field="Gene" />
+        <Column T="AntibodyTableInfo" Field="AntibodyID" Title="ID"/>
+        <Column T="AntibodyTableInfo" Field="AntibodyName" Title="Name"/>
+        <Column T="AntibodyTableInfo" Field="TargetAntigen" />
+        <Column T="AntibodyTableInfo" Field="Clonality" />
+        <Column T="AntibodyTableInfo" Field="Reference" />
+        <Column T="AntibodyTableInfo" Field="CloneID" />
+        <Column T="AntibodyTableInfo" Field="HostOrganism" />
+        <Column T="AntibodyTableInfo" Field="Vendor" />
+        <Column T="AntibodyTableInfo" Field="CatNum" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="AntibodyTableInfo" />
+    </PagerContent>
+</MudDataGrid>
 
 
 @code {
@@ -66,6 +41,30 @@ else
         antibodyTableInfos = antibodyTableProvider.GetAntibodyTableInfo();
     }
 
+    private string _searchString;
+    private bool _sortNameByLength;
+    // custom sort by name length
 
+    private Func<AntibodyTableInfo, object> _sortBy => x =>
+    {
+        if (_sortNameByLength)
+            return x.Gene.Length;
+        else
+            return x.Gene;
+    };
+    // quick filter - filter gobally across multiple columns with the same input
+    private Func<AntibodyTableInfo, bool> _quickFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
+
+        if (x.Gene.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if ($"{x.AntibodyID}".Contains(_searchString))
+            return true;
+
+        return false;
+    };
 }
 

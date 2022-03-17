@@ -41,7 +41,7 @@ namespace HubmapProject
             }
         }
 
-        public IEnumerable<AntibodyCountInfo> GetAntibodyCountInfos() => _AntibodyCountInfo.Where(a => a != null);
+        public IEnumerable<AntibodyCountInfo> GetAntibodyCountInfos() => (_AntibodyCountInfo.Where(a => a != null)).Skip(1);
 
 
         public IEnumerable<AntibodyCountInfo> GetAntibodyCounts(int antibodyCount)

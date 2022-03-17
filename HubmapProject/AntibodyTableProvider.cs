@@ -38,7 +38,7 @@ namespace HubmapProject
             }
         }
 
-        public IEnumerable<AntibodyTableInfo> GetAntibodyTableInfo() => _antibodyTableInfos.Where(a => a != null);
+        public IEnumerable<AntibodyTableInfo> GetAntibodyTableInfo() => (_antibodyTableInfos.Where(a => a != null)).Skip(1);
 
         public IEnumerable<AntibodyTableInfo> GetAntibodyGene(string gene)
         {

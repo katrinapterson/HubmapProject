@@ -21,6 +21,7 @@ namespace HubmapProject
                 {
                     var lines = reader.ReadLine();
                     var values = lines.Split(",");
+                    
 
                     int toInt(string value)
                     {
@@ -56,7 +57,8 @@ namespace HubmapProject
             }
         }
 
-        public IEnumerable<LiteratureInfo> GetLiteratureInfos() => _literatureInfos.Where(a => a != null);
+        public IEnumerable<LiteratureInfo> GetLiteratureInfos() => (_literatureInfos.Where(a => a != null)).Skip(1);
+           
 
         public IEnumerable<LiteratureInfo> GetGene(string gene)
         {

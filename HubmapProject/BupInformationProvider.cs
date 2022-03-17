@@ -79,7 +79,7 @@ namespace HubmapProject
 
         }
 
-        public IEnumerable<BupInfo> GetBupInfos() => _bupInfos.Where(a => a != null);
+        public IEnumerable<BupInfo> GetBupInfos() => (_bupInfos.Where(a => a != null)).Skip(1);
 
     }
 }
