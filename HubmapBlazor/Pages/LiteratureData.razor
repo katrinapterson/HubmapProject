@@ -1,6 +1,8 @@
 ﻿@page "/LiteratureData"
 @inject NavigationManager NavigationManager
 
+<MudThemeProvider />
+
 <h1>Literature Data</h1>
 
 <MudButton OnClick="Navigate" Variant="Variant.Filled" Color="Color.Primary">Show Bup Data</MudButton>
@@ -14,13 +16,13 @@
     <Columns>
         <Column T="LiteratureInfo" Field="Gene" />
         <Column T="LiteratureInfo" Field="Ensembl" />
-        <Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession"/>
-        
-        @*<Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession">
+        @*<Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession"/>*@
+
+        <Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession">
             <CellTemplate>
-                <MudButton Size="@Size.Small" OnClick="Navigate" Variant="Variant.Filled" Color="Color.Primary">accession</MudButton>
+                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => Navigate(@context.UniprotAccession))">@context.UniprotAccession</MudIconButton>
             </CellTemplate>
-        </Column>*@
+        </Column>
 
         <Column T="LiteratureInfo" Field="GeneDescription" Title="Description" />
         <Column T="LiteratureInfo" Field="HPAEvidence" />
@@ -75,10 +77,9 @@
         NavigationManager.NavigateTo("/BupData/P01023");
     }
 
-
-    @*void Navigate(string accession)
+    public void Navigate(string accession)
     {
         NavigationManager.NavigateTo($"/BupData/{accession}");
-    }*@
+    }
 }
 
