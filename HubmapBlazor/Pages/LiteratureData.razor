@@ -1,25 +1,33 @@
 ﻿@page "/LiteratureData"
-
+@inject NavigationManager NavigationManager
 
 <h1>Literature Data</h1>
 
-<MudDataGrid MultiSelection="true" Items="@literatureInfos" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
+<MudButton OnClick="Navigate" Variant="Variant.Filled" Color="Color.Primary">Show Bup Data</MudButton>
+
+<MudDataGrid MultiSelection="true" Items="@literatureInfos" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
-        <MudText Typo="Typo.h6">Literature Data</MudText>
         <MudSpacer />
         <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
-                        AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <Columns>
         <Column T="LiteratureInfo" Field="Gene" />
         <Column T="LiteratureInfo" Field="Ensembl" />
-        <Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession" />
-        <Column T="LiteratureInfo" Field="GeneDescription" Title="Description"/>
-        <Column T="LiteratureInfo" Field="HPAEvidence"/>
+        <Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession"/>
+        
+        @*<Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession">
+            <CellTemplate>
+                <MudButton Size="@Size.Small" OnClick="Navigate" Variant="Variant.Filled" Color="Color.Primary">accession</MudButton>
+            </CellTemplate>
+        </Column>*@
+
+        <Column T="LiteratureInfo" Field="GeneDescription" Title="Description" />
+        <Column T="LiteratureInfo" Field="HPAEvidence" />
         <Column T="LiteratureInfo" Field="RNATissueSpecificity" Title="Specificity" />
-        <Column T="LiteratureInfo" Field="RNATissueSpecificityScore" Title="Specificity Score"/>
-        <Column T="LiteratureInfo" Field="RNATissueSpecicNX" Title="Specific NX"/>
-        <Column T="LiteratureInfo" Field="UniprotName" Title="Uniprot"/>
+        <Column T="LiteratureInfo" Field="RNATissueSpecificityScore" Title="Specificity Score" />
+        <Column T="LiteratureInfo" Field="RNATissueSpecicNX" Title="Specific NX" />
+        <Column T="LiteratureInfo" Field="UniprotName" Title="Uniprot" />
         <Column T="LiteratureInfo" Field="Mass" />
         <Column T="LiteratureInfo" Field="GOAnnotations" />
         <Column T="LiteratureInfo" Field="GeneID" />
@@ -34,32 +42,19 @@
 
 
 
-<div class="d-flex flex-wrap mt-4">
-    <MudSwitch @bind-Checked="@_sortNameByLength" Color="Color.Primary">Sort Name Column By Length</MudSwitch>
-</div>
-
 @code {
 
     private IEnumerable<LiteratureInfo> literatureInfos = Enumerable.Empty<LiteratureInfo>();
 
     protected override async Task OnInitializedAsync()
     {
-        var literatureInfoProvider = new LiteratureInfoProvider(@"../HubmapProject/Resources/literature_data.csv");
+        var literatureInfoProvider = new LiteratureInfoProvider(@"../HubmapProject/Resources/NewestLiteratureData");
         literatureInfoProvider.GenerateLiteratureInfos();
         literatureInfos = literatureInfoProvider.GetLiteratureInfos();
     }
 
     private string _searchString;
-    private bool _sortNameByLength;
-    // custom sort by name length
 
-    private Func<LiteratureInfo, object> _sortBy => x =>
-    {
-        if (_sortNameByLength)
-            return x.Gene.Length;
-        else
-            return x.Gene;
-    };
     // quick filter - filter gobally across multiple columns with the same input
     private Func<LiteratureInfo, bool> _quickFilter => x =>
     {
@@ -74,5 +69,16 @@
 
         return false;
     };
+
+    void Navigate()
+    {
+        NavigationManager.NavigateTo("/BupData/P01023");
+    }
+
+
+    @*void Navigate(string accession)
+    {
+        NavigationManager.NavigateTo($"/BupData/{accession}");
+    }*@
 }
 

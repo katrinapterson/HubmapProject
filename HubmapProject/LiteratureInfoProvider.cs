@@ -65,6 +65,10 @@ namespace HubmapProject
             return _literatureInfos.Where(x => x.Gene == gene);
         }
 
+        public IEnumerable<LiteratureInfo> GetAccession(string accession)
+        {
+            return _literatureInfos.Where(x => x.UniprotAccession == accession);
+        }
     }
 }
 

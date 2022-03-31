@@ -10,7 +10,7 @@ namespace HubmapProject
         static void Main(string[] args)
         {
 
-            var bupInformationProvider = new BupInformationProvider(@"../../../Resources/bup_data.csv");
+            var bupInformationProvider = new BupInformationProvider(@"../../../Resources/NewBupData");
             bupInformationProvider.GenerateBupInfos();
             var bupInfos = bupInformationProvider.GetBupInfos();
 
