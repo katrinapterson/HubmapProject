@@ -1,0 +1,69 @@
+﻿@page "/LiteratureData/{Accession}"
+
+
+<h1>Literature Data</h1>
+<h3>Accession: @Accession</h3>
+
+<MudDataGrid MultiSelection="true" Items="@literatureInfos" Filterable="true" QuickFilter="@_quickFilter">
+    <ToolBarContent>
+        <MudSpacer />
+        <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <Columns>
+        <Column T="LiteratureInfo" Field="Gene" />
+        <Column T="LiteratureInfo" Field="Ensembl" />
+        <Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession" />
+        <Column T="LiteratureInfo" Field="GeneDescription" Title="Description" />
+        <Column T="LiteratureInfo" Field="HPAEvidence" />
+        <Column T="LiteratureInfo" Field="RNATissueSpecificity" Title="Specificity" />
+        <Column T="LiteratureInfo" Field="RNATissueSpecificityScore" Title="Specificity Score" />
+        <Column T="LiteratureInfo" Field="RNATissueSpecicNX" Title="Specific NX" />
+        <Column T="LiteratureInfo" Field="UniprotName" Title="Uniprot" />
+        <Column T="LiteratureInfo" Field="Mass" />
+        <Column T="LiteratureInfo" Field="GOAnnotations" />
+        <Column T="LiteratureInfo" Field="GeneID" />
+        <Column T="LiteratureInfo" Field="PubmedCitations" />
+        <Column T="LiteratureInfo" Field="AntibodyCount" />
+
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="LiteratureInfo" />
+    </PagerContent>
+</MudDataGrid>
+
+
+
+
+@code {
+
+    [Parameter] public string? Accession { get; set; }
+
+    private IEnumerable<LiteratureInfo> literatureInfos = Enumerable.Empty<LiteratureInfo>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var literatureInfoProvider = new LiteratureInfoProvider(@"../HubmapProject/Resources/NewestLiteratureData");
+        literatureInfoProvider.GenerateLiteratureInfos();
+        literatureInfos = literatureInfoProvider.GetAccession(Accession);
+    }
+
+    private string _searchString;
+
+    // quick filter - filter gobally across multiple columns with the same input
+    private Func<LiteratureInfo, bool> _quickFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
+
+        if (x.Gene.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if ($"{x.UniprotAccession}".Contains(_searchString))
+            return true;
+
+        return false;
+    };
+
+}
+

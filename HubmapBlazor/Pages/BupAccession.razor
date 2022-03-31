@@ -1,0 +1,56 @@
+﻿@page "/BupData/{Accession}"
+
+<h3>Accession: @Accession</h3>
+
+<MudDataGrid MultiSelection="true" Items="@bupInfos" Filterable="true" QuickFilter="@_quickFilter">
+    <ToolBarContent>
+        <MudSpacer />
+        <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <Columns>
+        <Column T="BupInfo" Field="UniprotAccession" Title="Accession" />
+        <Column T="BupInfo" Field="UniprotName" Title="Name" />
+        <Column T="BupInfo" Field="GeneDescription" Title="Description" />
+        <Column T="BupInfo" Field="CommonTissue" Title="Tissue" />
+        <Column T="BupInfo" Field="Dataset" />
+        <Column T="BupInfo" Field="Abundance" />
+        <Column T="BupInfo" Field="Rank" />
+        <Column T="BupInfo" Field="NormRank" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="BupInfo" />
+    </PagerContent>
+</MudDataGrid>
+
+
+@code {
+    [Parameter] public string? Accession { get; set; }
+
+    private IEnumerable<BupInfo> bupInfos = Enumerable.Empty<BupInfo>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var bupInformationProvider = new BupInformationProvider(@"../HubmapProject/Resources/NewBupData");
+        bupInformationProvider.GenerateBupInfos();
+        bupInfos = bupInformationProvider.GetAccessionBupInfos(@Accession);
+    }
+
+    private string _searchString;
+
+    // quick filter - filter gobally across multiple columns with the same input
+    private Func<BupInfo, bool> _quickFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
+
+        if (x.Dataset.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if ($"{x.UniprotAccession}".Contains(_searchString))
+            return true;
+
+        return false;
+    };
+} 
+
