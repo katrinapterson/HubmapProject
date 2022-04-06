@@ -1,11 +1,13 @@
 ﻿@page "/LiteratureData"
 @inject NavigationManager NavigationManager
 
+    <MudThemeProvider />
+
 <h1>Literature Data</h1>
 
-<MudButton OnClick="Navigate" Variant="Variant.Filled" Color="Color.Primary">Show Bup Data</MudButton>
 
-<MudDataGrid MultiSelection="true" Items="@literatureInfos" Filterable="true" QuickFilter="@_quickFilter">
+
+<MudDataGrid MultiSelection="true" Items="@literatureInfos" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
         <MudSpacer />
         <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
@@ -14,13 +16,12 @@
     <Columns>
         <Column T="LiteratureInfo" Field="Gene" />
         <Column T="LiteratureInfo" Field="Ensembl" />
-        <Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession"/>
         
-        @*<Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession">
+        <Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession">
             <CellTemplate>
-                <MudButton Size="@Size.Small" OnClick="Navigate" Variant="Variant.Filled" Color="Color.Primary">accession</MudButton>
+                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => Navigate(@context.UniprotAccession))">@context.UniprotAccession</MudIconButton>
             </CellTemplate>
-        </Column>*@
+        </Column>
 
         <Column T="LiteratureInfo" Field="GeneDescription" Title="Description" />
         <Column T="LiteratureInfo" Field="HPAEvidence" />
@@ -64,21 +65,25 @@
         if (x.Gene.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        if ($"{x.UniprotAccession}".Contains(_searchString))
+        if (x.UniprotAccession.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (x.GeneDescription.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (x.RNATissueSpecificity.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (x.UniprotName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
 
         return false;
     };
 
-    void Navigate()
+
+    void Navigate(string accession)
     {
-        NavigationManager.NavigateTo("/BupData/P01023");
+        NavigationManager.NavigateTo($"/BupData?accession={accession}");
     }
-
-
-    @*void Navigate(string accession)
-    {
-        NavigationManager.NavigateTo($"/BupData/{accession}");
-    }*@
 }
 

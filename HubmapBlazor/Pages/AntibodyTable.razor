@@ -5,7 +5,7 @@
 <h1>Antibody Table</h1>
 
 
-<MudDataGrid MultiSelection="true" Items="@antibodyTableInfos" Filterable="true" QuickFilter="@_quickFilter">
+<MudDataGrid MultiSelection="true" Items="@antibodyTableInfos" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
         <MudSpacer />
         <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
@@ -41,7 +41,7 @@
     }
 
     private string _searchString;
-   
+
     // quick filter - filter gobally across multiple columns with the same input
     private Func<AntibodyTableInfo, bool> _quickFilter => x =>
     {
@@ -50,9 +50,13 @@
 
         if (x.Gene.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-
-        if ($"{x.AntibodyID}".Contains(_searchString))
+        if (x.AntibodyID.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
+        if (x.AntibodyName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (x.TargetAntigen.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
 
         return false;
     };

@@ -5,7 +5,7 @@
 <h1>Antibody Count</h1>
 
 
-<MudDataGrid MultiSelection="true" Items="@antibodyCountInfos" Filterable="true" QuickFilter="@_quickFilter">
+<MudDataGrid MultiSelection="true" Items="@antibodyCountInfos" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
         <MudSpacer />
         <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"

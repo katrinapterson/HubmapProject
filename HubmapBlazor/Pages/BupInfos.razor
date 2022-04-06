@@ -1,10 +1,11 @@
 ﻿
 @page "/BupData"
-
+@inject NavigationManager NavManager
+@using Microsoft.AspNetCore.WebUtilities
 
 <h1>Bup Data</h1>
 
-<MudDataGrid MultiSelection="true" Items="@bupInfos" Filterable="true" QuickFilter="@_quickFilter">
+<MudDataGrid MultiSelection="true" Items="@bupInfos" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
         <MudSpacer />
         <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
@@ -30,13 +31,34 @@
 
 @code {
 
-        private IEnumerable<BupInfo> bupInfos = Enumerable.Empty<BupInfo>();
+    public string? Accession { get; set; }
+    public string? Tissue { get; set; }
 
-        protected override async Task OnInitializedAsync()
+
+    private IEnumerable<BupInfo> bupInfos = Enumerable.Empty<BupInfo>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var bupInformationProvider = new BupInformationProvider(@"../HubmapProject/Resources/NewBupData");
+        bupInformationProvider.GenerateBupInfos();
+        bupInfos = bupInformationProvider.GetBupInfos();
+
+        var uri = NavManager.ToAbsoluteUri
+        (NavManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).
+        TryGetValue("tissue", out var tissue))
         {
-            var bupInformationProvider = new BupInformationProvider(@"../HubmapProject/Resources/NewBupData");
-            bupInformationProvider.GenerateBupInfos();
-            bupInfos = bupInformationProvider.GetBupInfos();
+            Tissue = tissue.First();
+            bupInfos = bupInformationProvider.GetTissues(Tissue);
+        }
+
+        if (QueryHelpers.ParseQuery(uri.Query).
+            TryGetValue("accession", out var accession))
+        {
+            Accession = accession.First();
+            bupInfos = bupInformationProvider.GetAccessionBupInfos(Accession);
+        }
     }
 
     private string _searchString;
@@ -46,16 +68,16 @@
     {
         if (string.IsNullOrWhiteSpace(_searchString))
             return true;
-
-        if (x.Dataset.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+        if (x.UniprotAccession.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-
-        if ($"{x.UniprotAccession}".Contains(_searchString))
+        if (x.UniprotName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-
         if (x.GeneDescription.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-
+        if (x.CommonTissue.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (x.Dataset.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
         return false;
     };
 

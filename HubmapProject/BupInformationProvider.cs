@@ -81,5 +81,29 @@ namespace HubmapProject
 
         public IEnumerable<BupInfo> GetBupInfos() => (_bupInfos.Where(a => a != null)).Skip(1);
 
+
+        public IEnumerable<BupInfo> GetTissues(string tissue) => _bupInfos.Where(a => a.CommonTissue == tissue);
+
+
+        public IEnumerable<string> TissueList()
+        {
+            var list = new List<string>();
+            foreach (var bupInfo in _bupInfos.Skip(1))
+            {
+                if (!(list.Contains(bupInfo.CommonTissue)))
+                {
+                    list.Add(bupInfo.CommonTissue);
+                }
+            }
+
+            if (list != null)
+            {
+                list.Sort();
+            }
+
+            return list;
+        }
+
+
     }
 }

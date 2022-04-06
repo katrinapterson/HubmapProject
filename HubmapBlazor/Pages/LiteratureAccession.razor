@@ -50,7 +50,7 @@
 
     private string _searchString;
 
-    // quick filter - filter gobally across multiple columns with the same input
+    
     private Func<LiteratureInfo, bool> _quickFilter => x =>
     {
         if (string.IsNullOrWhiteSpace(_searchString))
@@ -59,8 +59,18 @@
         if (x.Gene.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        if ($"{x.UniprotAccession}".Contains(_searchString))
+        if (x.UniprotAccession.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
+
+        if (x.GeneDescription.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (x.RNATissueSpecificity.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (x.UniprotName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
 
         return false;
     };
