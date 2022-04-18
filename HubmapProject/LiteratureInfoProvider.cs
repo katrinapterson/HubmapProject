@@ -69,6 +69,21 @@ namespace HubmapProject
         {
             return _literatureInfos.Where(x => x.UniprotAccession == accession);
         }
+
+        public IEnumerable<LiteratureInfo> GetTissueAccessions(IEnumerable<string> accessions)
+        {
+            var list = new List<LiteratureInfo>();
+            foreach (var accession in accessions)
+            {
+                var proteins = _literatureInfos.Where(x => x.UniprotAccession == accession);
+                foreach (var protein in proteins)
+                {
+                    list.Add(protein);
+                }
+            }
+
+            return list;
+        }
     }
 }
 

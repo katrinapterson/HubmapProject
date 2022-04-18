@@ -104,6 +104,14 @@ namespace HubmapProject
             return list;
         }
 
-
+        public IEnumerable<string> TissueAccessions(IEnumerable<BupInfo> bupInfos)
+        {
+            var list = new List<string>();
+            foreach (var bup in bupInfos)
+            {
+                list.Add(bup.UniprotAccession);
+            }
+            return list;
+        }
     }
 }
