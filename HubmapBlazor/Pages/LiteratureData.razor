@@ -1,7 +1,9 @@
 ﻿@page "/LiteratureData"
+@using HubmapBlazor.Data
 @inject NavigationManager NavigationManager
+@inject LiteratureProteinService LiteratureService
 
-    <MudThemeProvider />
+<MudThemeProvider />
 
 <h1>Literature Data</h1>
 
@@ -16,7 +18,7 @@
     <Columns>
         <Column T="LiteratureInfo" Field="Gene" />
         <Column T="LiteratureInfo" Field="Ensembl" />
-        
+
         <Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession">
             <CellTemplate>
                 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => Navigate(@context.UniprotAccession))">@context.UniprotAccession</MudIconButton>
@@ -45,13 +47,17 @@
 
 @code {
 
+    private LiteratureProtein[]? literatures;
+
     private IEnumerable<LiteratureInfo> literatureInfos = Enumerable.Empty<LiteratureInfo>();
 
     protected override async Task OnInitializedAsync()
     {
-        var literatureInfoProvider = new LiteratureInfoProvider(@"../HubmapProject/Resources/NewestLiteratureData");
-        literatureInfoProvider.GenerateLiteratureInfos();
-        literatureInfos = literatureInfoProvider.GetLiteratureInfos();
+                //literatures = await LiteratureService.GetLiteratureAsync(DateTime.Now);
+
+        //var literatureInfoProvider = new LiteratureInfoProvider(@"../HubmapProject/Resources/NewestLiteratureData");
+        //literatureInfoProvider.GenerateLiteratureInfos();
+        //literatureInfos = literatureInfoProvider.GetLiteratureInfos();
     }
 
     private string _searchString;

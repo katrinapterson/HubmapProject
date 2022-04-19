@@ -1,5 +1,7 @@
-﻿@page "/Proteins"
+﻿@page "/Proteins/{Tissue?}"
 @inject NavigationManager NavigationManager
+@inject LiteratureProteinService LiteratureProteinService
+@using HubmapBlazor.Data
 @using Microsoft.AspNetCore.WebUtilities
 
 <MudThemeProvider />
@@ -8,37 +10,37 @@
 
 Tissue: @Tissue
 
-<MudDataGrid MultiSelection="true" Items="@literatureInfos" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
+<MudDataGrid MultiSelection="true" Items="@literatureProteins" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
         <MudSpacer />
         <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <Columns>
-        <Column T="LiteratureInfo" Field="Gene" />
-        <Column T="LiteratureInfo" Field="Ensembl" />
+        <Column T="LiteratureProtein" Field="Gene" />
+        <Column T="LiteratureProtein" Field="Ensembl" />
 
-        <Column T="LiteratureInfo" Field="UniprotAccession" Title="Accession">
+        <Column T="LiteratureProtein" Field="UniprotAccession" Title="Accession">
             <CellTemplate>
                 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => Navigate(@context.UniprotAccession))">@context.UniprotAccession</MudIconButton>
             </CellTemplate>
         </Column>
 
-        <Column T="LiteratureInfo" Field="GeneDescription" Title="Description" />
-        <Column T="LiteratureInfo" Field="HPAEvidence" />
-        <Column T="LiteratureInfo" Field="RNATissueSpecificity" Title="Specificity" />
-        <Column T="LiteratureInfo" Field="RNATissueSpecificityScore" Title="Specificity Score" />
-        <Column T="LiteratureInfo" Field="RNATissueSpecicNX" Title="Specific NX" />
-        <Column T="LiteratureInfo" Field="UniprotName" Title="Uniprot" />
-        <Column T="LiteratureInfo" Field="Mass" />
-        <Column T="LiteratureInfo" Field="GOAnnotations" />
-        <Column T="LiteratureInfo" Field="GeneID" />
-        <Column T="LiteratureInfo" Field="PubmedCitations" />
-        <Column T="LiteratureInfo" Field="AntibodyCount" />
+        <Column T="LiteratureProtein" Field="GeneDescription" Title="Description" />
+        <Column T="LiteratureProtein" Field="HPAEvidence" />
+        <Column T="LiteratureProtein" Field="RNATissueSpecificity" Title="Specificity" />
+        <Column T="LiteratureProtein" Field="RNATissueSpecificityScore" Title="Specificity Score" />
+        <Column T="LiteratureProtein" Field="RNATissueSpecicNX" Title="Specific NX" />
+        <Column T="LiteratureProtein" Field="UniprotName" Title="Uniprot" />
+        <Column T="LiteratureProtein" Field="Mass" />
+        <Column T="LiteratureProtein" Field="GOAnnotations" />
+        <Column T="LiteratureProtein" Field="GeneID" />
+        <Column T="LiteratureProtein" Field="PubmedCitations" />
+        <Column T="LiteratureProtein" Field="AntibodyCount" />
 
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="LiteratureInfo" />
+        <MudDataGridPager T="LiteratureProtein" />
     </PagerContent>
 </MudDataGrid>
 
@@ -46,37 +48,25 @@ Tissue: @Tissue
 
 @code {
 
+    [Parameter]
     public string? Tissue { get; set; }
 
-
-    private IEnumerable<LiteratureInfo> literatureInfos = Enumerable.Empty<LiteratureInfo>();
-
+    private IEnumerable<LiteratureProtein> literatureProteins = Enumerable.Empty<LiteratureProtein>();
     protected override async Task OnInitializedAsync()
     {
-        var literatureInfoProvider = new LiteratureInfoProvider(@"../HubmapProject/Resources/NewestLiteratureData");
-        literatureInfoProvider.GenerateLiteratureInfos();
-        literatureInfos = literatureInfoProvider.GetLiteratureInfos();
+        var bupInformationProvider = new BupInformationProvider(@"../HubmapProject/Resources/NewBupData");
+        bupInformationProvider.GenerateBupInfos();
+        var bupInfos = bupInformationProvider.GetTissues(Tissue);
+        var bupAccessions = bupInformationProvider.TissueAccessions(bupInfos);
 
-        var uri = NavigationManager.ToAbsoluteUri
-        (NavigationManager.Uri);
-
-        if (QueryHelpers.ParseQuery(uri.Query).
-    TryGetValue("tissue", out var tissue))
-        {
-            Tissue = tissue.First();
-            var bupInformationProvider = new BupInformationProvider(@"../HubmapProject/Resources/NewBupData");
-            bupInformationProvider.GenerateBupInfos();
-            var bupInfos = bupInformationProvider.GetTissues(Tissue);
-            var bupAccessions = bupInformationProvider.TissueAccessions(bupInfos);
-
-            literatureInfos = literatureInfoProvider.GetTissueAccessions(bupAccessions);
-        }
+        literatureProteins = LiteratureProteinService.GetTissueAccessions(bupAccessions);
     }
+
 
     private string _searchString;
 
     // quick filter - filter gobally across multiple columns with the same input
-    private Func<LiteratureInfo, bool> _quickFilter => x =>
+    private Func<LiteratureProtein, bool> _quickFilter => x =>
     {
         if (string.IsNullOrWhiteSpace(_searchString))
             return true;
@@ -104,4 +94,4 @@ Tissue: @Tissue
     {
         NavigationManager.NavigateTo($"/BupData?accession={accession}");
     }
-}
+    }
