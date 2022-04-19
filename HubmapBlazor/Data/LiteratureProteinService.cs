@@ -64,17 +64,15 @@
 
         public IEnumerable<LiteratureProtein> GetTissueAccessions(IEnumerable<string> accessions)
         {
-            var list = new List<LiteratureProtein>();
-            foreach (var accession in accessions)
+            var literatureProteins = new List<LiteratureProtein>();
+
+            foreach(var literature in _literatures)
             {
-                var proteins = _literatures.Where(x => x.UniprotAccession == accession);
-                foreach (var protein in proteins)
-                {
-                    list.Add(protein);
-                }
+                if (accessions.Contains(literature.UniprotAccession))
+                    literatureProteins.Add(literature);
             }
 
-            return list;
+            return literatureProteins;
         }
     }
 }
