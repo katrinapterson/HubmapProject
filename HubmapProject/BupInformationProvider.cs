@@ -106,7 +106,7 @@ namespace HubmapProject
 
         public IEnumerable<string> TissueAccessions(IEnumerable<BupInfo> bupInfos)
         {
-            var list = new List<string>();
+            var list = new HashSet<string>();
             foreach (var bup in bupInfos)
             {
                 list.Add(bup.UniprotAccession);

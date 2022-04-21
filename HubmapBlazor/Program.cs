@@ -14,7 +14,8 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton(_ => new BupInformationProvider("file path"));
 builder.Services.AddSingleton(_ => new AntibodyCountProvider("file path"));
 builder.Services.AddSingleton(_ => new AntibodyTableProvider("file path"));
-builder.Services.AddSingleton(_ => new LiteratureInfoProvider("file path"));
+builder.Services.AddSingleton(_ => new LiteratureInfoProvider(@"../HubmapProject/Resources/NewestLiteratureData"));
+builder.Services.AddSingleton(_ => new LiteratureProteinService(@"../HubmapProject/Resources/NewestLiteratureData"));
 builder.Services.AddSingleton(_ => new WeatherForecastService());
 
 builder.Services.AddMudServices();
