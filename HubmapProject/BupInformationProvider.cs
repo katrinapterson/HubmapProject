@@ -113,5 +113,29 @@ namespace HubmapProject
             }
             return list;
         }
+
+        public int GetUniqueProteinCount(string tissue, IEnumerable<BupInfo> bupInfos)
+        {
+            var proteinTissues = new Dictionary<string, HashSet<string>>();
+
+            var list = new HashSet<string>();
+            foreach (var bup in bupInfos)
+            {
+                if (proteinTissues.ContainsKey(bup.UniprotAccession))
+                    proteinTissues[bup.UniprotAccession].Add(tissue);
+                else
+                    proteinTissues.Add(bup.UniprotAccession, new HashSet<string>(){ tissue });
+            }
+
+            var count = 0;
+
+            foreach (var kvp in proteinTissues)
+            {
+                if (kvp.Value.Contains(tissue) && kvp.Value.Count == 1)
+                    count++;
+            }
+
+            return count;
+        }
     }
 }
