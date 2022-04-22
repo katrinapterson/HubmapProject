@@ -1,14 +1,15 @@
 ﻿@page "/Proteins/{Tissue?}"
 @inject NavigationManager NavigationManager
 @inject LiteratureProteinService LiteratureProteinService
+@inject BupService BupService
 @using HubmapBlazor.Data
-@using Microsoft.AspNetCore.WebUtilities
+
 
 <MudThemeProvider />
 
 <h1>Proteins</h1>
 
-Tissue: @Tissue
+<h3>@Tissue</h3> 
 
 <MudDataGrid MultiSelection="true" Items="@literatureProteins" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
@@ -22,7 +23,7 @@ Tissue: @Tissue
 
         <Column T="LiteratureProtein" Field="UniprotAccession" Title="Accession">
             <CellTemplate>
-                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => Navigate(@context.UniprotAccession))">@context.UniprotAccession</MudIconButton>
+                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => ShowBup(@context.UniprotAccession))">@context.UniprotAccession</MudIconButton>
             </CellTemplate>
         </Column>
 
@@ -54,12 +55,14 @@ Tissue: @Tissue
     private IEnumerable<LiteratureProtein> literatureProteins = Enumerable.Empty<LiteratureProtein>();
     protected override async Task OnInitializedAsync()
     {
-        var bupInformationProvider = new BupInformationProvider(@"../HubmapProject/Resources/NewBupData");
-        bupInformationProvider.GenerateBupInfos();
-        var bupInfos = bupInformationProvider.GetTissues(Tissue);
-        var bupAccessions = bupInformationProvider.TissueAccessions(bupInfos);
 
-        literatureProteins = LiteratureProteinService.GetTissueAccessions(bupAccessions);
+        if (Tissue != null)
+        {
+            var bupTissues = BupService.GetTissues(Tissue);
+            var bupAccessions = BupService.TissueAccessions(bupTissues);
+            literatureProteins = LiteratureProteinService.GetTissueAccessions(bupAccessions);
+        }
+        else literatureProteins = LiteratureProteinService.GetProteins();
     }
 
 
@@ -90,8 +93,8 @@ Tissue: @Tissue
     };
 
 
-    void Navigate(string accession)
+    void ShowBup(string accession)
     {
-        NavigationManager.NavigateTo($"/BupData?accession={accession}");
+        NavigationManager.NavigateTo($"/BottomUp/{accession}");
     }
     }

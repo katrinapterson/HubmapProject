@@ -17,4 +17,11 @@
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Data\BupService.razor" />
+    <Content Remove="Data\BupService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Data\Bup.razor" />
+  </ItemGroup>
 </Project>

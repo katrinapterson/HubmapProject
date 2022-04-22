@@ -1,5 +1,7 @@
 ﻿@page "/Tissues"
 @inject NavigationManager NavigationManager
+@using HubmapBlazor.Data
+@inject BupService BupService
 
 <MudThemeProvider />
 
@@ -8,21 +10,19 @@
 
 <MudDataGrid MultiSelection="true" Items="@tissueList" Filterable="true">
     <ToolBarContent>
-        @*<MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>*@
     </ToolBarContent>
     <Columns>
-        <Column T="string" >
+        <Column T="string">
             <CellTemplate>
                 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
-                               OnClick="@((e) => Navigate(@context))">@context</MudIconButton>
-            </CellTemplate>
-        </Column>
-    </Columns>
-    <PagerContent>
-        <MudDataGridPager T="string" />
-    </PagerContent>
-</MudDataGrid>
+                               OnClick="@((e) => ShowProteins(@context))">@context</MudIconButton>
+                        </CellTemplate>
+                    </Column>
+                </Columns>
+                <PagerContent>
+                    <MudDataGridPager T="string" />
+                </PagerContent>
+            </MudDataGrid>
 
 
 
@@ -32,27 +32,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var bupInformationProvider = new BupInformationProvider(@"../HubmapProject/Resources/NewBupData");
-        bupInformationProvider.GenerateBupInfos();
-        tissueList = bupInformationProvider.TissueList();
-        
+                   
+        tissueList = BupService.TissueList();
+
     }
 
-    @*private string _searchString;
-
-    // quick filter - filter gobally across multiple columns with the same input
-    private Func<BupInfo, bool> _quickFilter => x =>
-    {
-        if (string.IsNullOrWhiteSpace(_searchString))
-            return true;
-
-        if (x.CommonTissue.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-
-        return false;
-    };*@
-
-    void Navigate(string tissue)
+               
+    void ShowProteins(string tissue)
     {
         NavigationManager.NavigateTo($"/Proteins/{tissue}");
     }

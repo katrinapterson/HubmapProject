@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HubmapProject
+﻿namespace HubmapBlazor.Data
 {
-    public class BupInformationProvider
+    public class BupService
     {
-        private string _file;
-        private ICollection<BupInfo> _bupInfos;
-        public BupInformationProvider(string file)
+        
+        private ICollection<Bup> _bupInfos = new List<Bup>();
+        public BupService(string file)
         {
-            _file = file;
-        }
-        public void GenerateBupInfos()
-        {
-            using (StreamReader reader = new StreamReader(_file))
+            using (StreamReader reader = new StreamReader(file))
             {
-                _bupInfos = new List<BupInfo>();
+                _bupInfos = new List<Bup>();
                 while (!reader.EndOfStream)
                 {
                     var lines = reader.ReadLine();
@@ -49,7 +38,7 @@ namespace HubmapProject
                         }
                     }
 
-                    BupInfo aBup = new BupInfo(
+                    Bup aBup = new Bup(
                         values[0],
                         values[1],
                         values[2],
@@ -63,26 +52,28 @@ namespace HubmapProject
                 }
             }
         }
+    
 
-        public ICollection<BupInfo> GetAccessionBupInfos(string UniprotAccession)
+           
+        public ICollection<Bup> GetAccessionBupInfos(string UniprotAccession)
         {
-            var list = new List<BupInfo>();
+            var list = new List<Bup>();
 
-            foreach (var bupInfo in _bupInfos)
+            foreach (var bup in _bupInfos)
             {
-                if (bupInfo.UniprotAccession == UniprotAccession)
+                if (bup.UniprotAccession == UniprotAccession)
                 {
-                    list.Add(bupInfo);
+                    list.Add(bup);
                 }
             }
             return list;
 
         }
 
-        public IEnumerable<BupInfo> GetBupInfos() => (_bupInfos.Where(a => a != null)).Skip(1);
+        public IEnumerable<Bup> GetBupInfos() => (_bupInfos.Where(a => a != null)).Skip(1);
 
 
-        public IEnumerable<BupInfo> GetTissues(string tissue) => _bupInfos.Where(a => a.CommonTissue == tissue);
+        public IEnumerable<Bup> GetTissues(string tissue) => _bupInfos.Where(a => a.CommonTissue == tissue);
 
 
         public IEnumerable<string> TissueList()
@@ -104,7 +95,7 @@ namespace HubmapProject
             return list;
         }
 
-        public IEnumerable<string> TissueAccessions(IEnumerable<BupInfo> bupInfos)
+        public IEnumerable<string> TissueAccessions(IEnumerable<Bup> bupInfos)
         {
             var list = new HashSet<string>();
             foreach (var bup in bupInfos)

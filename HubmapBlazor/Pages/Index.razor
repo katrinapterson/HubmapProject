@@ -3,17 +3,29 @@
 @inject NavigationManager NavigationManager
 
 <PageTitle>Index</PageTitle>
-
-<h1>Hello, world!</h1>
+<MudThemeProvider />
+<h1>Smart Targets</h1>
 
 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
-               OnClick=Navigate>Tissues</MudIconButton>
-
+               OnClick=ShowTissues>Tissues</MudIconButton>
+<MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
+               OnClick=ShowProteins>Proteins</MudIconButton>
+<MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
+               OnClick=ShowBup>BottomUp</MudIconButton>
 @code{
 
-    void Navigate()
+    void ShowTissues()
     {
         NavigationManager.NavigateTo("/Tissues");
     }
-    
+
+    void ShowProteins()
+    {
+        NavigationManager.NavigateTo("/Tissues");
+    }
+
+    void ShowBup()
+    {
+        NavigationManager.NavigateTo("/Tissues");
+    }
 }

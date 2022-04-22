@@ -51,7 +51,7 @@
         {
             var literatures = new List<LiteratureProtein>();
 
-            return (Task<LiteratureProtein[]>)Task.Run(() => 
+            return (Task<LiteratureProtein[]>)Task.Run(() =>
             {
                 foreach (var accession in accessions)
                 {
@@ -66,7 +66,7 @@
         {
             var literatureProteins = new List<LiteratureProtein>();
 
-            foreach(var literature in _literatures)
+            foreach (var literature in _literatures)
             {
                 if (accessions.Contains(literature.UniprotAccession))
                     literatureProteins.Add(literature);
@@ -74,5 +74,14 @@
 
             return literatureProteins;
         }
+
+
+        public IEnumerable<LiteratureProtein> GetProteins()
+        {
+            return _literatures.Skip(1);
+        }
+
+
+
     }
 }

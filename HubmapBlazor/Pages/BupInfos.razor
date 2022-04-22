@@ -1,9 +1,10 @@
 ﻿
-@page "/BupData"
+@page "/BottomUp/{Accession?}"
 @inject NavigationManager NavManager
-@using Microsoft.AspNetCore.WebUtilities
+@using HubmapBlazor.Data
+@inject BupService BupService
 
-<h1>Bup Data</h1>
+<h1>Bottom Up</h1>
 
 <MudDataGrid MultiSelection="true" Items="@bupInfos" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
@@ -12,17 +13,17 @@
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <Columns>
-        <Column T="BupInfo" Field="UniprotAccession" Title="Accession" />
-        <Column T="BupInfo" Field="UniprotName" Title="Name" />
-        <Column T="BupInfo" Field="GeneDescription" Title="Description" />
-        <Column T="BupInfo" Field="CommonTissue" Title="Tissue" />
-        <Column T="BupInfo" Field="Dataset" />
-        <Column T="BupInfo" Field="Abundance" />
-        <Column T="BupInfo" Field="Rank" />
-        <Column T="BupInfo" Field="NormRank" />
+        <Column T="Bup" Field="UniprotAccession" Title="Accession" />
+        <Column T="Bup" Field="UniprotName" Title="Name" />
+        <Column T="Bup" Field="GeneDescription" Title="Description" />
+        <Column T="Bup" Field="CommonTissue" Title="Tissue" />
+        <Column T="Bup" Field="Dataset" />
+        <Column T="Bup" Field="Abundance" />
+        <Column T="Bup" Field="Rank" />
+        <Column T="Bup" Field="NormRank" />
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="BupInfo" />
+        <MudDataGridPager T="Bup" />
     </PagerContent>
 </MudDataGrid>
 
@@ -31,40 +32,27 @@
 
 @code {
 
+    [Parameter]
     public string? Accession { get; set; }
-    public string? Tissue { get; set; }
 
 
-    private IEnumerable<BupInfo> bupInfos = Enumerable.Empty<BupInfo>();
+
+    private IEnumerable<Bup> bupInfos = Enumerable.Empty<Bup>();
 
     protected override async Task OnInitializedAsync()
     {
-        var bupInformationProvider = new BupInformationProvider(@"../HubmapProject/Resources/NewBupData");
-        bupInformationProvider.GenerateBupInfos();
-        bupInfos = bupInformationProvider.GetBupInfos();
 
-        var uri = NavManager.ToAbsoluteUri
-        (NavManager.Uri);
-
-        if (QueryHelpers.ParseQuery(uri.Query).
-        TryGetValue("tissue", out var tissue))
+        if (Accession != null)
         {
-            Tissue = tissue.First();
-            bupInfos = bupInformationProvider.GetTissues(Tissue);
+            bupInfos = BupService.GetAccessionBupInfos(Accession);
         }
-
-        if (QueryHelpers.ParseQuery(uri.Query).
-            TryGetValue("accession", out var accession))
-        {
-            Accession = accession.First();
-            bupInfos = bupInformationProvider.GetAccessionBupInfos(Accession);
-        }
+        else bupInfos = BupService.GetBupInfos();
     }
 
     private string _searchString;
 
     // quick filter - filter gobally across multiple columns with the same input
-    private Func<BupInfo, bool> _quickFilter => x =>
+    private Func<Bup, bool> _quickFilter => x =>
     {
         if (string.IsNullOrWhiteSpace(_searchString))
             return true;
