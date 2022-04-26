@@ -87,21 +87,21 @@ namespace HubmapProject
 
         public IEnumerable<string> TissueList()
         {
-            var list = new List<string>();
+            var tissues = new List<string>();
             foreach (var bupInfo in _bupInfos.Skip(1))
             {
-                if (!(list.Contains(bupInfo.CommonTissue)))
+                if (!(tissues.Contains(bupInfo.CommonTissue)))
                 {
-                    list.Add(bupInfo.CommonTissue);
+                    tissues.Add(bupInfo.CommonTissue);
                 }
             }
 
-            if (list != null)
+            if (tissues != null)
             {
-                list.Sort();
+                tissues.Sort();
             }
 
-            return list;
+            return tissues;
         }
 
         public IEnumerable<string> TissueAccessions(IEnumerable<BupInfo> bupInfos)
