@@ -31,14 +31,11 @@
         </Column>
 
         <Column T="LiteratureProtein" Field="GeneDescription" Title="Description" />
-        <Column T="LiteratureProtein" Field="HPAEvidence" />
-        <Column T="LiteratureProtein" Field="RNATissueSpecificity" Title="Specificity" />
+        @*<Column T="LiteratureProtein" Field="RNATissueSpecificity" Title="Specificity" />*@
         <Column T="LiteratureProtein" Field="RNATissueSpecificityScore" Title="Specificity Score" />
-        <Column T="LiteratureProtein" Field="RNATissueSpecicNX" Title="Specific NX" />
-        <Column T="LiteratureProtein" Field="UniprotName" Title="Uniprot" />
+        @*<Column T="LiteratureProtein" Field="RNATissueSpecicNX" Title="Specific NX" />*@
         <Column T="LiteratureProtein" Field="Mass" />
         <Column T="LiteratureProtein" Field="GOAnnotations" />
-        <Column T="LiteratureProtein" Field="GeneID" />
         <Column T="LiteratureProtein" Field="PubmedCitations" />
         <Column T="LiteratureProtein" Field="AntibodyCount" />
 
@@ -106,6 +103,6 @@
 
     void ShowBup(string accession)
     {
-        NavigationManager.NavigateTo($"/BottomUp/{accession}");
+        NavigationManager.NavigateTo($"/Protein/{accession}");
     }
 }

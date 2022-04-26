@@ -1,0 +1,82 @@
+﻿@page "/Protein/{Accession}"
+@inject BupService BupService
+@inject AntibodyService AntibodyService
+@inject LiteratureProteinService LiteratureProteinService 
+@using HubmapBlazor.Data
+
+<MudThemeProvider />
+
+<h1>
+    Protein @ProteinBupInfos.First().UniprotAccession
+</h1>
+
+<h3>
+    Name: @ProteinBupInfos.First().UniprotName
+    Description: @ProteinBupInfos.First().GeneDescription
+</h3>
+
+
+
+
+<MudDataGrid Items="@ProteinBupInfos" Sortable="true" Filterable="true">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Bottom Up</MudText>
+    </ToolBarContent>
+    <Columns>
+        <Column T=Bup Field="CommonTissue" Title="Tissue"/>
+        <Column T=Bup Field="Dataset" />
+        <Column T=Bup Field="Abundance" />
+        <Column T=Bup Field="Rank" />
+        <Column T=Bup Field="NormRank" Title="Normal Rank"/>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Bup" />
+    </PagerContent>
+</MudDataGrid>
+
+
+<MudDataGrid Items="@Antibodies" Sortable="true" Filterable="true">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Antibodies</MudText>
+    </ToolBarContent>
+    <Columns>
+        <Column T="Antibody" Field="Gene" />
+        <Column T="Antibody" Field="AntibodyID" Title="ID" />
+        <Column T="Antibody" Field="AntibodyName" Title="Name" />
+        <Column T="Antibody" Field="TargetAntigen" />
+        <Column T="Antibody" Field="Clonality" />
+        <Column T="Antibody" Field="Reference" />
+        <Column T="Antibody" Field="CloneID" />
+        <Column T="Antibody" Field="HostOrganism" />
+        <Column T="Antibody" Field="Vendor" />
+        <Column T="Antibody" Field="CatNum" />
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Antibody" />
+    </PagerContent>
+</MudDataGrid>
+
+
+
+@code {
+
+    [Parameter]
+    public string? Accession { get; set; }
+
+    private IEnumerable<Bup> ProteinBupInfos = Enumerable.Empty<Bup>();
+    private IEnumerable<Antibody> Antibodies = Enumerable.Empty<Antibody>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var BupInfos = BupService.GetAccessionBupInfos(Accession);
+        ProteinBupInfos = BupService.GetAbundantBups(BupInfos);
+
+
+        var ProteinGene = LiteratureProteinService.GetGeneFromAccession(Accession);
+        Antibodies = AntibodyService.GetAntibodyGene(ProteinGene);
+
+    }
+
+
+}
+

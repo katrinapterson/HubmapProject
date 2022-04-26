@@ -81,7 +81,14 @@
             return _literatures.Skip(1);
         }
 
-
+        public string? GetGeneFromAccession(string accession)
+        {
+            foreach (var literature in _literatures)
+            {
+                if (literature.UniprotAccession == accession) return literature.Gene;
+            }
+            return null;
+        }
 
     }
 }
