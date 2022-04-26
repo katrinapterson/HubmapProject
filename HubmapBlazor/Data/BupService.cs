@@ -104,5 +104,8 @@
             }
             return list;
         }
+
+
+        public IEnumerable<Bup> GetAbundantBups(IEnumerable<Bup> bupInfos) => bupInfos.Where(a => a.Abundance != 0);
     }
 }

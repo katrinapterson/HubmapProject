@@ -6,6 +6,12 @@
 
 <h1>Bottom Up</h1>
 
+@if (Accession != null)
+{
+    <h3>Accession: @Accession</h3>
+}
+
+
 <MudDataGrid MultiSelection="true" Items="@bupInfos" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
         <MudSpacer />
@@ -44,9 +50,14 @@
 
         if (Accession != null)
         {
-            bupInfos = BupService.GetAccessionBupInfos(Accession);
+            var bups = BupService.GetAccessionBupInfos(Accession);
+            bupInfos = BupService.GetAbundantBups(bups);
         }
-        else bupInfos = BupService.GetBupInfos();
+        else
+        {
+            var bups = BupService.GetBupInfos();
+            bupInfos = BupService.GetAbundantBups(bups);
+        }
     }
 
     private string _searchString;

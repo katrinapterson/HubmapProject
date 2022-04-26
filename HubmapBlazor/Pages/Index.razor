@@ -8,8 +8,10 @@
 
 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
                OnClick=ShowTissues>Tissues</MudIconButton>
+
 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
                OnClick=ShowProteins>Proteins</MudIconButton>
+
 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
                OnClick=ShowBup>BottomUp</MudIconButton>
 @code{
@@ -21,11 +23,11 @@
 
     void ShowProteins()
     {
-        NavigationManager.NavigateTo("/Tissues");
+        NavigationManager.NavigateTo("/Proteins");
     }
 
     void ShowBup()
     {
-        NavigationManager.NavigateTo("/Tissues");
+        NavigationManager.NavigateTo("/BottomUp");
     }
 }

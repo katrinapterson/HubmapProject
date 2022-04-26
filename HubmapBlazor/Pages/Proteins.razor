@@ -9,7 +9,10 @@
 
 <h1>Proteins</h1>
 
-<h3>@Tissue</h3> 
+@if (Tissue != null)
+{
+    <h3>Tissue: @Tissue</h3>
+}
 
 <MudDataGrid MultiSelection="true" Items="@literatureProteins" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
@@ -56,13 +59,21 @@
     protected override async Task OnInitializedAsync()
     {
 
-        if (Tissue != null)
+        literatureProteins = LiteratureProteinService.GetProteins();
+
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).
+        TryGetValue("tissue", out var tissue))
         {
+            Tissue = tissue.First();
             var bupTissues = BupService.GetTissues(Tissue);
-            var bupAccessions = BupService.TissueAccessions(bupTissues);
+            var abundantBups = BupService.GetAbundantBups(bupTissues);
+            var bupAccessions = BupService.TissueAccessions(abundantBups);
             literatureProteins = LiteratureProteinService.GetTissueAccessions(bupAccessions);
         }
-        else literatureProteins = LiteratureProteinService.GetProteins();
+
+
     }
 
 
@@ -97,4 +108,4 @@
     {
         NavigationManager.NavigateTo($"/BottomUp/{accession}");
     }
-    }
+}

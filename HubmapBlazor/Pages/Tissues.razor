@@ -25,22 +25,21 @@
             </MudDataGrid>
 
 
+            @code {
 
-@code {
+                private IEnumerable<string> tissueList = Enumerable.Empty<string>();
 
-    private IEnumerable<string> tissueList = Enumerable.Empty<string>();
+                protected override async Task OnInitializedAsync()
+                {
 
-    protected override async Task OnInitializedAsync()
-    {
-                   
-        tissueList = BupService.TissueList();
+                    tissueList = BupService.TissueList();
 
-    }
+                }
 
-               
-    void ShowProteins(string tissue)
-    {
-        NavigationManager.NavigateTo($"/Proteins/{tissue}");
-    }
-}
+
+                void ShowProteins(string tissue)
+                {
+                    NavigationManager.NavigateTo($"/Proteins?tissue={tissue}");
+                }
+            }
 
