@@ -1,0 +1,39 @@
+﻿@page "/About"
+@using System.IO
+@using System.Text;
+@inject IJSRuntime JS
+
+<h3>About Smart Targets</h3>
+
+Objective: To develop a protein-centric resource that guides researchers to select human proteins to study in targeted assays
+<MudSpacer></MudSpacer>
+
+
+
+<button @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/bup_data.csv", "bup_data.csv"))">
+    Download Bottom Up Data
+</button>
+
+
+
+
+@code {
+    private Stream GetFileStream(string file)
+    {
+        UnicodeEncoding uniEncoding = new UnicodeEncoding();
+        var binaryFile = uniEncoding.GetBytes(file);
+        var fileStream = new MemoryStream(binaryFile);
+        return fileStream;
+    }
+
+
+    private async Task DownloadFileFromStream(string file, string fileName)
+    {
+        var fileStream = GetFileStream(file);
+
+        using var streamRef = new DotNetStreamReference(stream: fileStream);
+
+        await JS.InvokeVoidAsync("downloadFileFromStream", fileName, streamRef);
+    }
+
+}

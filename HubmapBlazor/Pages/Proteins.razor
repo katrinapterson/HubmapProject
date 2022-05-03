@@ -26,7 +26,7 @@
 
         <Column T="LiteratureProtein" Field="UniprotAccession" Title="Accession">
             <CellTemplate>
-                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => ShowBup(@context.UniprotAccession))">@context.UniprotAccession</MudIconButton>
+                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => ShowBup(@context.UniprotAccession, context.Gene))">@context.UniprotAccession</MudIconButton>
             </CellTemplate>
         </Column>
 
@@ -64,7 +64,7 @@
         TryGetValue("tissue", out var tissue))
         {
             Tissue = tissue.First();
-            var bupTissues = BupService.GetTissues(Tissue);
+            var bupTissues = BupService.GetBupsWithTissue(Tissue);
             var abundantBups = BupService.GetAbundantBups(bupTissues);
             var bupAccessions = BupService.TissueAccessions(abundantBups);
             literatureProteins = LiteratureProteinService.GetTissueAccessions(bupAccessions);
@@ -101,8 +101,8 @@
     };
 
 
-    void ShowBup(string accession)
+    void ShowBup(string accession, string gene)
     {
-        NavigationManager.NavigateTo($"/Protein/{accession}");
+        NavigationManager.NavigateTo($"/Protein/{gene}/{accession}");
     }
 }

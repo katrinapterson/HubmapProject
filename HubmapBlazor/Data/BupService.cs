@@ -2,7 +2,7 @@
 {
     public class BupService
     {
-        
+
         private ICollection<Bup> _bupInfos = new List<Bup>();
         public BupService(string file)
         {
@@ -52,9 +52,9 @@
                 }
             }
         }
-    
 
-           
+
+
         public ICollection<Bup> GetAccessionBupInfos(string UniprotAccession)
         {
             var list = new List<Bup>();
@@ -73,24 +73,17 @@
         public IEnumerable<Bup> GetBupInfos() => (_bupInfos.Where(a => a != null)).Skip(1);
 
 
-        public IEnumerable<Bup> GetTissues(string tissue) => _bupInfos.Where(a => a.CommonTissue == tissue);
+        public IEnumerable<Bup> GetBupsWithTissue(string tissue) => _bupInfos.Where(a => a.CommonTissue == tissue);
 
 
         public IEnumerable<string> TissueList()
         {
-            var list = new List<string>();
+            var list = new HashSet<string>();
             foreach (var bupInfo in _bupInfos.Skip(1))
             {
-                if (!(list.Contains(bupInfo.CommonTissue)))
-                {
-                    list.Add(bupInfo.CommonTissue);
-                }
+                list.Add(bupInfo.CommonTissue);
             }
 
-            if (list != null)
-            {
-                list.Sort();
-            }
 
             return list;
         }
@@ -107,5 +100,36 @@
 
 
         public IEnumerable<Bup> GetAbundantBups(IEnumerable<Bup> bupInfos) => bupInfos.Where(a => a.Abundance != 0);
+
+
+
+        public int GetUniqueProteinCount(string tissue, IEnumerable<Bup> bupInfos)
+        {
+            var proteinTissues = new Dictionary<string, HashSet<string>>();
+
+            var list = new HashSet<string>();
+            foreach (var bup in bupInfos)
+            {
+                if (proteinTissues.ContainsKey(bup.UniprotAccession))
+                    proteinTissues[bup.UniprotAccession].Add(tissue);
+                else
+                    proteinTissues.Add(bup.UniprotAccession, new HashSet<string>() { tissue });
+            }
+
+            var count = 0;
+
+            foreach (var kvp in proteinTissues)
+            {
+                if (kvp.Value.Contains(tissue) && kvp.Value.Count == 1)
+                    count++;
+            }
+
+            return count;
+        }
+
+
+
+
+        
     }
 }

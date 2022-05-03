@@ -1,33 +1,41 @@
-﻿@page "/Protein/{Accession}"
+﻿@page "/Protein/{Gene}/{Accession}"
 @inject BupService BupService
 @inject AntibodyService AntibodyService
-@inject LiteratureProteinService LiteratureProteinService 
+@inject LiteratureProteinService LiteratureProteinService
 @using HubmapBlazor.Data
 
 <MudThemeProvider />
 
 <h1>
-    Protein @ProteinBupInfos.First().UniprotAccession
+    Protein @Accession
 </h1>
 
-<h3>
-    Name: @ProteinBupInfos.First().UniprotName
-    Description: @ProteinBupInfos.First().GeneDescription
-</h3>
+@if (ProteinBupInfos.Any())
+{
+    <h5>
+        Name: @ProteinBupInfos.First().UniprotName
+        <MudSpacer></MudSpacer>
+        Description: @ProteinBupInfos.First().GeneDescription
+    </h5>
+}
 
 
 
 
-<MudDataGrid Items="@ProteinBupInfos" Sortable="true" Filterable="true">
+
+<MudDataGrid Items="@ProteinBupInfos" Sortable="true" Filterable="true" RowsPerPage="5" QuickFilter="@_BupFilter">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Bottom Up</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="_BupSearchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <Columns>
-        <Column T=Bup Field="CommonTissue" Title="Tissue"/>
+        <Column T=Bup Field="CommonTissue" Title="Tissue" />
         <Column T=Bup Field="Dataset" />
         <Column T=Bup Field="Abundance" />
         <Column T=Bup Field="Rank" />
-        <Column T=Bup Field="NormRank" Title="Normal Rank"/>
+        <Column T=Bup Field="NormRank" Title="Normal Rank" />
     </Columns>
     <PagerContent>
         <MudDataGridPager T="Bup" />
@@ -35,14 +43,17 @@
 </MudDataGrid>
 
 
-<MudDataGrid Items="@Antibodies" Sortable="true" Filterable="true">
+<MudDataGrid Items="@Antibodies" Sortable="true" Filterable="true" RowsPerPage="5" QuickFilter="@_AntibodyFilter">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Antibodies</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="_AntibodySearchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <Columns>
-        <Column T="Antibody" Field="Gene" />
         <Column T="Antibody" Field="AntibodyID" Title="ID" />
-        <Column T="Antibody" Field="AntibodyName" Title="Name" />
+        <Column 
+                T="Antibody" Field="AntibodyName" Title="Name" />
         <Column T="Antibody" Field="TargetAntigen" />
         <Column T="Antibody" Field="Clonality" />
         <Column T="Antibody" Field="Reference" />
@@ -63,6 +74,9 @@
     [Parameter]
     public string? Accession { get; set; }
 
+    [Parameter]
+    public string? Gene { get; set; }
+
     private IEnumerable<Bup> ProteinBupInfos = Enumerable.Empty<Bup>();
     private IEnumerable<Antibody> Antibodies = Enumerable.Empty<Antibody>();
 
@@ -71,12 +85,52 @@
         var BupInfos = BupService.GetAccessionBupInfos(Accession);
         ProteinBupInfos = BupService.GetAbundantBups(BupInfos);
 
-
-        var ProteinGene = LiteratureProteinService.GetGeneFromAccession(Accession);
-        Antibodies = AntibodyService.GetAntibodyGene(ProteinGene);
+        Antibodies = AntibodyService.GetAntibodyGene(Gene);
 
     }
 
+
+    private string _BupSearchString;
+
+    // quick filter - filter gobally across multiple columns with the same input
+    private Func<Bup, bool> _BupFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(_BupSearchString))
+            return true;
+        if (x.CommonTissue.Contains(_BupSearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (x.Dataset.Contains(_BupSearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    };
+
+
+    private string _AntibodySearchString;
+
+    private Func<Antibody, bool> _AntibodyFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(_AntibodySearchString))
+            return true;
+        if (x.AntibodyID.Contains(_AntibodySearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (x.AntibodyName.Contains(_AntibodySearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (x.TargetAntigen.Contains(_AntibodySearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (x.Clonality.Contains(_AntibodySearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (x.Reference.Contains(_AntibodySearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (x.CloneID.Contains(_AntibodySearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (x.HostOrganism.Contains(_AntibodySearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (x.Vendor.Contains(_AntibodySearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (x.CatNum.Contains(_AntibodySearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    };
 
 }
 

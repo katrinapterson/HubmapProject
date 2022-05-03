@@ -1,7 +1,8 @@
 ﻿@page "/Tissues"
 @inject NavigationManager NavigationManager
 @using HubmapBlazor.Data
-@inject BupService BupService
+@inject TissueProvider TissueProvider
+ 
 
 <MudThemeProvider />
 
@@ -12,34 +13,38 @@
     <ToolBarContent>
     </ToolBarContent>
     <Columns>
-        <Column T="string">
+        <Column T="Tissue">
             <CellTemplate>
                 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
-                               OnClick="@((e) => ShowProteins(@context))">@context</MudIconButton>
-                        </CellTemplate>
-                    </Column>
-                </Columns>
-                <PagerContent>
-                    <MudDataGridPager T="string" />
-                </PagerContent>
-            </MudDataGrid>
+                               OnClick="@((e) => ShowProteins(@context.Name))">@context.Name
+                </MudIconButton>
+            </CellTemplate>
+        </Column>
+        <Column T="Tissue" Field="Proteins" Title="Protein Count"/>
+
+        <Column T="Tissue" Field="UniqueProteins" Title="Unique Protein Count"/>
+    </Columns>
+    <PagerContent>
+        <MudDataGridPager T="Tissue" />
+    </PagerContent>
+</MudDataGrid>
 
 
-            @code {
+@code {
 
-                private IEnumerable<string> tissueList = Enumerable.Empty<string>();
+    private IEnumerable<Tissue> tissueList = Enumerable.Empty<Tissue>();
 
-                protected override async Task OnInitializedAsync()
-                {
+    protected override async Task OnInitializedAsync()
+    {
 
-                    tissueList = BupService.TissueList();
+        tissueList = TissueProvider.GetTissueInfos();
 
-                }
+    }
 
 
-                void ShowProteins(string tissue)
-                {
-                    NavigationManager.NavigateTo($"/Proteins?tissue={tissue}");
-                }
-            }
+    void ShowProteins(string tissue)
+    {
+        NavigationManager.NavigateTo($"/Proteins?tissue={tissue}");
+    }
+}
 
