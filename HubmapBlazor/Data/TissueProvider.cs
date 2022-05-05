@@ -18,7 +18,7 @@ namespace HubmapBlazor.Data
                 var proteinCount = abundantBups.Count();
 
 
-                var uniqueCount = bupInfos.GetUniqueProteinCount(tissue, bupInfos.GetAbundantBups(bupInfos.GetBupInfos()));
+                var uniqueCount = bupInfos.GetUniqueProteins(tissue, bupInfos.GetAbundantBups(bupInfos.GetBupInfos()));
 
                 Tissue tissue1 = new Tissue(tissue, proteinCount, uniqueCount);
 

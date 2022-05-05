@@ -3,7 +3,7 @@ namespace HubmapBlazor.Data
 {
 	public class Tissue
 	{
-		public Tissue(string name, int proteins, int uniqueProteins)
+		public Tissue(string name, int proteins, List<string> uniqueProteins)
 		{
 			Name = name;
 			Proteins = proteins;
@@ -11,7 +11,7 @@ namespace HubmapBlazor.Data
 		}
 		public string Name { get; set; }
 		public int Proteins { get; set; }
-		public int UniqueProteins { get; set; }
+		public List<string> UniqueProteins { get; set; }
 	}
 }
 

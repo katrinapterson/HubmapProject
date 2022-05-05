@@ -9,20 +9,28 @@
 <h1>Tissues</h1>
 
 
-<MudDataGrid MultiSelection="true" Items="@tissueList" Filterable="true">
+<MudDataGrid MultiSelection="true" Items="@tissueList" Filterable="true" Sortable="true">
     <ToolBarContent>
     </ToolBarContent>
     <Columns>
-        <Column T="Tissue" Field="Name" Title="Tissue"/>
+        <Column T="Tissue" Field="Name" Title="Tissue" />
         <Column T="Tissue" Title="Protein Count">
             <CellTemplate>
                 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
-                                OnClick="@((e) => ShowProteins(@context.Name))">
+                               OnClick="@((e) => ShowProteins(@context.Name))">
                     @context.Proteins
-                        </MudIconButton>
-                    </CellTemplate>
-                </Column>
-        <Column T="Tissue" Field="UniqueProteins" Title="Unique Protein Count" />
+                </MudIconButton>
+            </CellTemplate>
+        </Column>
+        @*<Column T="Tissue" Field="UniqueProteins" Title="Unique Protein Count" />*@
+        <Column T="Tissue" Title="Protein Count">
+            <CellTemplate>
+                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
+                               OnClick="@((e) => ShowUniqueProteins(@context.Name))">
+                    @context.UniqueProteins.Count()
+                </MudIconButton>
+            </CellTemplate>
+        </Column>
     </Columns>
     <PagerContent>
         <MudDataGridPager T="Tissue" />
@@ -45,6 +53,11 @@
     void ShowProteins(string tissue)
     {
         NavigationManager.NavigateTo($"/Proteins?tissue={tissue}");
+    }
+
+    void ShowUniqueProteins(string tissue)
+    {
+        NavigationManager.NavigateTo($"/Proteins?UniqueTo={tissue}");
     }
 }
 

@@ -52,6 +52,9 @@
     [Parameter]
     public string? Tissue { get; set; }
 
+    [Parameter]
+    public string? UniqueTissue { get; set; }
+
     private IEnumerable<LiteratureProtein> literatureProteins = Enumerable.Empty<LiteratureProtein>();
     protected override async Task OnInitializedAsync()
     {
@@ -70,7 +73,15 @@
             literatureProteins = LiteratureProteinService.GetTissueAccessions(bupAccessions);
         }
 
+        if (QueryHelpers.ParseQuery(uri.Query).
+        TryGetValue("UniqueTo", out var uniqueTissue))
+        {
+            UniqueTissue = uniqueTissue.First();
 
+            var accessionList = BupService.GetUniqueProteins(UniqueTissue, BupService.GetAbundantBups(BupService.GetBupInfos()));
+
+            literatureProteins = LiteratureProteinService.GetTissueAccessions(accessionList);
+        }
     }
 
 

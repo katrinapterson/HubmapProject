@@ -103,7 +103,7 @@
 
 
 
-        public int GetUniqueProteinCount(string tissue, IEnumerable<Bup> bupInfos)
+        public List<string> GetUniqueProteins(string tissue, IEnumerable<Bup> bupInfos)
         {
             var proteinTissues = new Dictionary<string, HashSet<string>>();
 
@@ -116,17 +116,20 @@
                     proteinTissues.Add(bup.UniprotAccession, new HashSet<string>() { bup.CommonTissue });
             }
 
-            var count = 0;
+            //var count = 0;
 
-            //Console.WriteLine(proteinTissues.ToString());
+            var accessionList = new List<string>();
 
             foreach (var kvp in proteinTissues)
             {
                 if (kvp.Value.Contains(tissue) && kvp.Value.Count == 1)
-                    count++;
+                {
+                    //count++;
+                    accessionList.Add(kvp.Key);
+                }
             }
 
-            return count;
+            return accessionList;
         }
 
 

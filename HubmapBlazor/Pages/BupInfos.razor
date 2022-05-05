@@ -1,16 +1,15 @@
 ﻿
-@page "/BottomUp/{Accession?}"
-@inject NavigationManager NavManager
+@page "/BottomUp/{tissue?}"
+@inject NavigationManager NavigationManager
 @using HubmapBlazor.Data
 @inject BupService BupService
 
 <h1>Bottom Up</h1>
 
-@if (Accession != null)
-{
-    <h3>Accession: @Accession</h3>
-}
-
+@if (tissue != null)
+ {
+    <h5>Unique @tissue  proteins</h5>
+ }
 
 <MudDataGrid MultiSelection="true" Items="@bupInfos" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
@@ -39,7 +38,7 @@
 @code {
 
     [Parameter]
-    public string? Accession { get; set; }
+    public string? tissue { get; set; }
 
 
 
@@ -47,16 +46,29 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var bups = BupService.GetBupInfos();
+        bupInfos = BupService.GetAbundantBups(bups);
 
-        if (Accession != null)
+        var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+
+        if (QueryHelpers.ParseQuery(uri.Query).
+             TryGetValue("tissue", out var _tissue))
         {
-            var bups = BupService.GetAccessionBupInfos(Accession);
-            bupInfos = BupService.GetAbundantBups(bups);
-        }
-        else
-        {
-            var bups = BupService.GetBupInfos();
-            bupInfos = BupService.GetAbundantBups(bups);
+            tissue = _tissue.First();
+
+            var accessionList = BupService.GetUniqueProteins(tissue, bupInfos);
+
+            bupInfos = Enumerable.Empty<Bup>();
+
+            foreach (var accession in accessionList)
+            {
+                var uniqueBups = BupService.GetAccessionBupInfos(accession);
+                var abundantBups = BupService.GetAbundantBups(uniqueBups);
+                foreach (var bup in abundantBups)
+                {
+                    bupInfos = bupInfos.Append(bup);
+                }
+            }
         }
     }
 
