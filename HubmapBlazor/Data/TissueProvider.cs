@@ -1,5 +1,4 @@
 ﻿
-
 namespace HubmapBlazor.Data
 {
 	public class TissueProvider

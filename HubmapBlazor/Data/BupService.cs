@@ -111,12 +111,14 @@
             foreach (var bup in bupInfos)
             {
                 if (proteinTissues.ContainsKey(bup.UniprotAccession))
-                    proteinTissues[bup.UniprotAccession].Add(tissue);
+                    proteinTissues[bup.UniprotAccession].Add(bup.CommonTissue);
                 else
-                    proteinTissues.Add(bup.UniprotAccession, new HashSet<string>() { tissue });
+                    proteinTissues.Add(bup.UniprotAccession, new HashSet<string>() { bup.CommonTissue });
             }
 
             var count = 0;
+
+            //Console.WriteLine(proteinTissues.ToString());
 
             foreach (var kvp in proteinTissues)
             {

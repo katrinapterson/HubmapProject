@@ -13,16 +13,16 @@
     <ToolBarContent>
     </ToolBarContent>
     <Columns>
-        <Column T="Tissue">
+        <Column T="Tissue" Field="Name" Title="Tissue"/>
+        <Column T="Tissue" Title="Protein Count">
             <CellTemplate>
                 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
-                               OnClick="@((e) => ShowProteins(@context.Name))">@context.Name
-                </MudIconButton>
-            </CellTemplate>
-        </Column>
-        <Column T="Tissue" Field="Proteins" Title="Protein Count"/>
-
-        <Column T="Tissue" Field="UniqueProteins" Title="Unique Protein Count"/>
+                                OnClick="@((e) => ShowProteins(@context.Name))">
+                    @context.Proteins
+                        </MudIconButton>
+                    </CellTemplate>
+                </Column>
+        <Column T="Tissue" Field="UniqueProteins" Title="Unique Protein Count" />
     </Columns>
     <PagerContent>
         <MudDataGridPager T="Tissue" />

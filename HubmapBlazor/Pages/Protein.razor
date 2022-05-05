@@ -52,9 +52,18 @@
     </ToolBarContent>
     <Columns>
         <Column T="Antibody" Field="AntibodyID" Title="ID" />
-        <Column 
-                T="Antibody" Field="AntibodyName" Title="Name" />
-        <Column T="Antibody" Field="TargetAntigen" />
+        @*<Column T="Antibody" Field="AntibodyName" Title="Name" />*@
+        <Column T="Antibody" Title="Name">
+            <CellTemplate>
+                <MudTextField T=string Lines="5" Text="@context.AntibodyName"></MudTextField>
+            </CellTemplate>
+        </Column>
+        @*<Column T="Antibody" Field="TargetAntigen" />*@
+        <Column T="Antibody" Title="Target Antigen">
+            <CellTemplate>
+                <MudTextField T=string Lines="5" Text="@context.TargetAntigen"></MudTextField>
+            </CellTemplate>
+        </Column>
         <Column T="Antibody" Field="Clonality" />
         <Column T="Antibody" Field="Reference" />
         <Column T="Antibody" Field="CloneID" />
