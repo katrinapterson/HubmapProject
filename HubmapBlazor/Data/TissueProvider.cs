@@ -8,6 +8,7 @@ namespace HubmapBlazor.Data
 		{
             var tissues = bupService.TissueList();
             var bupInfos = bupService.GetBupInfos();
+            var allAbundantBups = bupService.GetAbundantBups(bupInfos);
 
             foreach (var tissue in tissues)
             {
@@ -15,7 +16,7 @@ namespace HubmapBlazor.Data
                 var abundantBups = bupService.GetAbundantBups(bupTissues);
                 var proteinCount = abundantBups.Count();
 
-                var uniqueCount = bupService.GetUniqueProteins(tissue, bupService.GetAbundantBups(bupInfos));
+                var uniqueCount = bupService.GetUniqueProteins(tissue, allAbundantBups);
 
                 Tissue tissue1 = new Tissue(tissue, proteinCount, uniqueCount);
 
