@@ -5,6 +5,9 @@ using HubmapProject;
 using MudBlazor;
 using MudBlazor.Services;
 
+
+var bupService = new BupService(@"../HubmapProject/Resources/NewBupData");
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,9 +19,9 @@ builder.Services.AddSingleton(_ => new AntibodyCountProvider("file path"));
 builder.Services.AddSingleton(_ => new AntibodyTableProvider("file path"));
 builder.Services.AddSingleton(_ => new LiteratureInfoProvider(@"../HubmapProject/Resources/NewestLiteratureData"));
 builder.Services.AddSingleton(_ => new LiteratureProteinService(@"../HubmapProject/Resources/NewestLiteratureData"));
-builder.Services.AddSingleton(_ => new BupService(@"../HubmapProject/Resources/NewBupData"));
+builder.Services.AddSingleton(_ => bupService);
 builder.Services.AddSingleton(_ => new AntibodyService(@"../HubmapProject/Resources/antibody_table_unconjugated.tsv"));
-builder.Services.AddSingleton(_ => new TissueProvider());
+builder.Services.AddSingleton(_ => new TissueProvider(bupService));
 
 
 builder.Services.AddSingleton(_ => new WeatherForecastService());
