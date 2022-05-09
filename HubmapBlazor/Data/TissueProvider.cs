@@ -4,30 +4,25 @@ namespace HubmapBlazor.Data
 	public class TissueProvider
 	{
         private ICollection<Tissue> tissueInfos = new List<Tissue>();
-        public TissueProvider()
+        public TissueProvider(BupService bupService)
 		{
-            var bupInfos = new BupService(@"../HubmapProject/Resources/NewBupData");
+            var tissues = bupService.TissueList();
+            var bupInfos = bupService.GetBupInfos();
+            var allAbundantBups = bupService.GetAbundantBups(bupInfos);
 
-            var Tissues = bupInfos.TissueList();
-
-
-            foreach (var tissue in Tissues)
+            foreach (var tissue in tissues)
             {
-                var bupTissues = bupInfos.GetBupsWithTissue(tissue);
-                var abundantBups = bupInfos.GetAbundantBups(bupTissues);
+                var bupTissues = bupService.GetBupsWithTissue(tissue);
+                var abundantBups = bupService.GetAbundantBups(bupTissues);
                 var proteinCount = abundantBups.Count();
 
-
-                var uniqueCount = bupInfos.GetUniqueProteins(tissue, bupInfos.GetAbundantBups(bupInfos.GetBupInfos()));
+                var uniqueCount = bupService.GetUniqueProteins(tissue, allAbundantBups);
 
                 Tissue tissue1 = new Tissue(tissue, proteinCount, uniqueCount);
 
                 tissueInfos.Add(tissue1);
             }
-
         }
-
-
 
         public IEnumerable<Tissue> GetTissueInfos() => tissueInfos.Where(a => a != null);
     }
