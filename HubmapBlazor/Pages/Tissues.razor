@@ -6,6 +6,8 @@
 
 <MudThemeProvider />
 
+<MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
+
 <h1>Tissues</h1>
 
 
@@ -59,5 +61,12 @@
     {
         NavigationManager.NavigateTo($"/Proteins?UniqueTo={tissue}");
     }
+
+        private List<BreadcrumbItem> _breadCrumbs = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "#"),
+        new BreadcrumbItem("Link 1", href: "#"),
+        new BreadcrumbItem("Link 2", href: null, disabled: true)
+    };
 }
 
