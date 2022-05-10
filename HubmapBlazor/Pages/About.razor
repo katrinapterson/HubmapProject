@@ -3,6 +3,8 @@
 @using System.Text;
 @inject IJSRuntime JS
 
+<MudThemeProvider />
+
 <h3>About Smart Targets</h3>
 
 Objective: To develop a protein-centric resource that guides researchers to select human proteins to study in targeted assays
@@ -10,11 +12,21 @@ Objective: To develop a protein-centric resource that guides researchers to sele
 
 
 
-<button @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/bup_data.csv", "bup_data.csv"))">
+<MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/bup_data.csv", "bup_data.csv"))">
     Download Bottom Up Data
-</button>
+</MudButton>
 
+<MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/literature_data.csv", "literature_data.csv"))">
+    Download Literature Data
+</MudButton>
 
+<MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/antibody_table_unconjugated.tsv", "antibody_table_unconjugated.tsv"))">
+    Download Antibody Table Data
+</MudButton>
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/antibody_count_unconjugated.tsv", "antibody_count_unconjugated.tsv"))">
+    Download Antibody Count Data
+</MudButton>
 
 
 @code {

@@ -107,7 +107,6 @@
         {
             var proteinTissues = new Dictionary<string, HashSet<string>>();
 
-            var list = new HashSet<string>();
             foreach (var bup in bupInfos)
             {
                 if (proteinTissues.ContainsKey(bup.UniprotAccession))
@@ -116,7 +115,6 @@
                     proteinTissues.Add(bup.UniprotAccession, new HashSet<string>() { bup.CommonTissue });
             }
 
-            //var count = 0;
 
             var accessionList = new List<string>();
 
@@ -124,7 +122,6 @@
             {
                 if (kvp.Value.Contains(tissue) && kvp.Value.Count == 1)
                 {
-                    //count++;
                     accessionList.Add(kvp.Key);
                 }
             }
@@ -133,8 +130,35 @@
         }
 
 
+        public Dictionary<string, HashSet<string>> GetUniqueDict(IEnumerable<Bup> bupInfos)
+        {
+            var proteinTissues = new Dictionary<string, HashSet<string>>();
 
+            foreach (var bup in bupInfos)
+            {
+                if (proteinTissues.ContainsKey(bup.UniprotAccession))
+                    proteinTissues[bup.UniprotAccession].Add(bup.CommonTissue);
+                else
+                    proteinTissues.Add(bup.UniprotAccession, new HashSet<string>() { bup.CommonTissue });
+            }
 
+            return proteinTissues;
+        }
+
+        public List<string> GetUnique(string tissue, Dictionary<string, HashSet<string>> proteinTissues)
+        {
+            var accessionList = new List<string>();
+
+            foreach (var kvp in proteinTissues)
+            {
+                if (kvp.Value.Contains(tissue) && kvp.Value.Count == 1)
+                {
+                    accessionList.Add(kvp.Key);
+                }
+            }
+
+            return accessionList;
+        }
         
     }
 }

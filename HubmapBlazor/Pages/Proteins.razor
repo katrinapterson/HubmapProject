@@ -14,6 +14,11 @@
     <h3>Tissue: @Tissue</h3>
 }
 
+@if (UniqueTissue != null)
+{
+    <h3>Unique to: @UniqueTissue</h3>
+}
+
 <MudDataGrid MultiSelection="true" Items="@literatureProteins" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
         <MudSpacer />
