@@ -7,6 +7,8 @@
 
 <MudThemeProvider />
 
+<MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
+
 <h1>Proteins</h1>
 
 @if (Tissue != null)
@@ -39,7 +41,7 @@
         @*<Column T="LiteratureProtein" Field="RNATissueSpecificity" Title="Specificity" />*@
         <Column T="LiteratureProtein" Field="RNATissueSpecificityScore" Title="Specificity Score" />
         @*<Column T="LiteratureProtein" Field="RNATissueSpecicNX" Title="Specific NX" />*@
-        <Column T="LiteratureProtein" Field="Mass" />
+        <Column T="LiteratureProtein" Field="Mass" Format="N2"/>
         <Column T="LiteratureProtein" Field="GOAnnotations" />
         <Column T="LiteratureProtein" Field="PubmedCitations" />
         <Column T="LiteratureProtein" Field="AntibodyCount" />
@@ -121,4 +123,11 @@
     {
         NavigationManager.NavigateTo($"/Protein/{gene}/{accession}");
     }
+
+    private List<BreadcrumbItem> _breadCrumbs = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "#"),
+        new BreadcrumbItem("Tissues", href: @"Tissues"),
+        new BreadcrumbItem("Link 2", href: null, disabled: true)
+    };
 }

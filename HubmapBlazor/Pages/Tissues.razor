@@ -6,6 +6,8 @@
 
 <MudThemeProvider />
 
+<MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
+
 <h1>Tissues</h1>
 
 
@@ -14,7 +16,7 @@
     </ToolBarContent>
     <Columns>
         <Column T="Tissue" Field="Name" Title="Tissue" />
-        <Column T="Tissue" Title="Protein Count">
+        <Column T="Tissue" Field="Proteins" Title="Protein Count">
             <CellTemplate>
                 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
                                OnClick="@((e) => ShowProteins(@context.Name))">
@@ -23,7 +25,7 @@
             </CellTemplate>
         </Column>
         @*<Column T="Tissue" Field="UniqueProteins" Title="Unique Protein Count" />*@
-        <Column T="Tissue" Title="Unique Protein Count">
+        <Column T="Tissue" Field="UniqueProteinsCount" Title="Unique Protein Count">
             <CellTemplate>
                 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
                                OnClick="@((e) => ShowUniqueProteins(@context.Name))">
@@ -59,5 +61,12 @@
     {
         NavigationManager.NavigateTo($"/Proteins?UniqueTo={tissue}");
     }
+
+        private List<BreadcrumbItem> _breadCrumbs = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "#"),
+        new BreadcrumbItem("Link 1", href: "#"),
+        new BreadcrumbItem("Link 2", href: null, disabled: true)
+    };
 }
 
