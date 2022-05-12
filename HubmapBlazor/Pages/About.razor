@@ -5,29 +5,41 @@
 
 <MudThemeProvider />
 
-<h3>About Smart Targets</h3>
+<h1>About Smart Targets</h1>
 
-Objective: To develop a protein-centric resource that guides researchers to select human proteins to study in targeted assays
+<h5>Objective: To develop a protein-centric resource that guides researchers to select human proteins to study in targeted assays</h5>
 <MudSpacer></MudSpacer>
 
 
-
+Info about Bup data!
+<MudSpacer></MudSpacer>
 <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/bup_data.csv", "bup_data.csv"))">
     Download Bottom Up Data
 </MudButton>
+<MudSpacer></MudSpacer>
 
+
+Info about Literature data!
+<MudSpacer></MudSpacer>
 <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/literature_data.csv", "literature_data.csv"))">
     Download Literature Data
 </MudButton>
+<MudSpacer></MudSpacer>
 
+
+Info about Antibody table data!
+<MudSpacer></MudSpacer>
 <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/antibody_table_unconjugated.tsv", "antibody_table_unconjugated.tsv"))">
     Download Antibody Table Data
 </MudButton>
+<MudSpacer></MudSpacer>
 
+
+Info about Antibody Count data!
+<MudSpacer></MudSpacer>
 <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/antibody_count_unconjugated.tsv", "antibody_count_unconjugated.tsv"))">
     Download Antibody Count Data
 </MudButton>
-
 
 @code {
     private Stream GetFileStream(string file)

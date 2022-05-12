@@ -41,10 +41,26 @@
         @*<Column T="LiteratureProtein" Field="RNATissueSpecificity" Title="Specificity" />*@
         <Column T="LiteratureProtein" Field="RNATissueSpecificityScore" Title="Specificity Score" />
         @*<Column T="LiteratureProtein" Field="RNATissueSpecicNX" Title="Specific NX" />*@
-        <Column T="LiteratureProtein" Field="Mass" Format="N2"/>
-        <Column T="LiteratureProtein" Field="GOAnnotations" />
-        <Column T="LiteratureProtein" Field="PubmedCitations" />
-        <Column T="LiteratureProtein" Field="AntibodyCount" />
+        <Column T="LiteratureProtein" Field="Mass">
+            <CellTemplate>
+                <MudNumericField @bind-Value="@context.Mass" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
+            </CellTemplate>
+        </Column>
+        <Column T="LiteratureProtein" Field="GOAnnotations">
+            <CellTemplate>
+                <MudNumericField @bind-Value="@context.GOAnnotations" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
+            </CellTemplate>
+        </Column>
+        <Column T="LiteratureProtein" Field="PubmedCitations">
+            <CellTemplate>
+                <MudNumericField @bind-Value="@context.PubmedCitations" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
+            </CellTemplate>
+        </Column>
+        <Column T="LiteratureProtein" Field="AntibodyCount">
+            <CellTemplate>
+                <MudNumericField @bind-Value="@context.AntibodyCount" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
+            </CellTemplate>
+        </Column>
 
     </Columns>
     <PagerContent>
@@ -128,6 +144,6 @@
     {
         new BreadcrumbItem("Home", href: "#"),
         new BreadcrumbItem("Tissues", href: @"Tissues"),
-        new BreadcrumbItem("Link 2", href: null, disabled: true)
+        new BreadcrumbItem("Proteins", href: null, disabled: true)
     };
 }

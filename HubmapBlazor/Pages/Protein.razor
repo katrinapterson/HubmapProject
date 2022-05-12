@@ -6,6 +6,8 @@
 
 <MudThemeProvider />
 
+<MudBreadcrumbs Items="_breadCrumbs"></MudBreadcrumbs>
+
 <h1>
     Protein @Accession
 </h1>
@@ -33,9 +35,21 @@
     <Columns>
         <Column T=Bup Field="CommonTissue" Title="Tissue" />
         <Column T=Bup Field="Dataset" />
-        <Column T=Bup Field="Abundance" />
-        <Column T=Bup Field="Rank" />
-        <Column T=Bup Field="NormRank" Title="Normal Rank" />
+        <Column T=Bup Field="Abundance">
+            <CellTemplate>
+                <MudNumericField @bind-Value="@context.Abundance" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
+            </CellTemplate>
+        </Column>
+        <Column T=Bup Field="Rank">
+            <CellTemplate>
+                <MudNumericField @bind-Value="@context.Rank" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
+            </CellTemplate>
+        </Column>
+        <Column T=Bup Field="NormRank" Title="Normal Rank">
+            <CellTemplate>
+                <MudNumericField @bind-Value="@context.NormRank" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
+            </CellTemplate>
+        </Column>
     </Columns>
     <PagerContent>
         <MudDataGridPager T="Bup" />
@@ -139,6 +153,14 @@
         if (x.CatNum.Contains(_AntibodySearchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
+    };
+
+    private List<BreadcrumbItem> _breadCrumbs = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "#"),
+        new BreadcrumbItem("Tissues", href: @"Tissues"),
+        new BreadcrumbItem("Proteins", href: @"Proteins"),
+        new BreadcrumbItem("Protein", href: null, disabled: true)
     };
 
 }
