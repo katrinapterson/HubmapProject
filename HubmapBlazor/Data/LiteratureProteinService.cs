@@ -35,7 +35,7 @@
                         toInt(values[6]),
                         values[7],
                         values[8],
-                        toInt(values[9]),
+                        toInt(values[9])/1000,
                         toInt(values[10]),
                         toInt(values[11]),
                         toInt(values[12]),

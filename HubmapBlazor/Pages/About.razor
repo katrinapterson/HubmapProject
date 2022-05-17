@@ -5,43 +5,71 @@
 
 <MudThemeProvider />
 
-<h1>About Smart Targets</h1>
+<h1>SMARTTargets</h1>
 
-<h5>Objective: To develop a protein-centric resource that guides researchers to select human proteins to study in targeted assays</h5>
+Want to perform a targeted protein assay in human tissue but are unsure your target is abundant enough or supported by good commercial
+antibodies? We do too, so we sought to make this planning step easier. By combining publicly accessible data on proteins in tissue, we
+hope you can make smart target decisions.
 <MudSpacer></MudSpacer>
 
 
-Info about Bup data!
+
+<MudImage Src="SmartTargets.jpg" Alt="SmartTargets diagram" Elevation="25" Class="rounded-lg" />
+
+
+<h3>Data Sources</h3>
+<h6>Protein Abundance from Bottom-up Proteomics</h6>
 <MudSpacer></MudSpacer>
+
+We derive protein abundance in human tissue from two bottom-up proteomics (BUP) studies. The Human Protein Atlas Consortium performed label-free
+BUP on 29 tissue samples.<sup>1</sup> Tryptic peptides were analyzed by a Q-Exactive Plus mass spectrometer coupled to nanoflow liquid chromatography.
+Label-free quantitation was performed with MaxQuant using the iBAQ approach. In a separate study, the Genotype-Tissue Expression (GTEx) Consortium
+performed quantitative bottom-up proteomics of 201 samples from 32 different tissue types from 14 healthy donors using tandem-mass-tag (TMT) 10plex/MS3
+quantitation. In each TMT10plex run, eight tissue samples and two pooled reference samples were included. Since direct comparison of protein abundances
+across BUP studies is difficult, we instead chose to use the more transferable normalized rank to compare abundances. Normalized abundances range 0 to 1
+where 1 corresponds to the most abundance protein and proteins not detected have a normalize rank of 0.
+<MudSpacer></MudSpacer>
+
+<MudImage Src=@(@"../HubmapProject/Resources/SampleDiagram.jpg") Alt="Sample diagram" Elevation="25" Class="rounded-lg" />
+<MudSpacer></MudSpacer>
+<br />
+
 <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/bup_data.csv", "bup_data.csv"))">
     Download Bottom Up Data
 </MudButton>
-<MudSpacer></MudSpacer>
+<br />
+<br />
 
-
-Info about Literature data!
-<MudSpacer></MudSpacer>
 <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/literature_data.csv", "literature_data.csv"))">
     Download Literature Data
 </MudButton>
-<MudSpacer></MudSpacer>
+<br />
+<br />
 
-
-Info about Antibody table data!
-<MudSpacer></MudSpacer>
 <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/antibody_table_unconjugated.tsv", "antibody_table_unconjugated.tsv"))">
     Download Antibody Table Data
 </MudButton>
-<MudSpacer></MudSpacer>
 
-
-Info about Antibody Count data!
-<MudSpacer></MudSpacer>
+<br />
+<br />
 <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" @onclick="@((e) => DownloadFileFromStream(@"../HubmapProject/Resources/antibody_count_unconjugated.tsv", "antibody_count_unconjugated.tsv"))">
     Download Antibody Count Data
 </MudButton>
+<MudSpacer></MudSpacer>
+<br />
+
+<h6>References</h6>
+<MudSpacer></MudSpacer>
+1. Wang, D.; Eraslan, B.; Wieland, T.; Hallström, B.; Hopf, T.; Zolg, D. P.; Zecha, J.; Asplund, A.; Li, L.; Meng, C.; Frejno, M.; Schmidt, T.; Schnatbaum, K.; Wilhelm, M.; Ponten, F.; Uhlen,
+M.; Gagneur, J.; Hahne, H.; Kuster, B. A Deep Proteome and Transcriptome Abundance Atlas of 29 Healthy Human Tissues. Mol Syst Biol 2019, 15 (2), e8503.
+<MudLink Href="https://doi.org/10.15252/msb.20188503">https://doi.org/10.15252/msb.20188503</MudLink>.
+<MudSpacer></MudSpacer>
+2. Jiang, L.; Snyder, M. P. A Quantitative Proteome Map of the Human Body. Cell 2020, 183 (1), 269-283.e19. <MudLink Href="https://doi.org/10.1016/j.cell.2020.08.036">https://doi.org/10.1016/j.cell.2020.08.036</MudLink>.
+
 
 @code {
+
+
     private Stream GetFileStream(string file)
     {
         UnicodeEncoding uniEncoding = new UnicodeEncoding();

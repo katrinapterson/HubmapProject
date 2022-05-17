@@ -21,7 +21,7 @@
     <h3>Unique to: @UniqueTissue</h3>
 }
 
-<MudDataGrid MultiSelection="true" Items="@literatureProteins" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
+<MudDataGrid MultiSelection="true" Items="@literatureProteins" Sortable="true" Filterable="true" QuickFilter="@_quickFilter" >
     <ToolBarContent>
         <MudSpacer />
         <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
@@ -39,26 +39,30 @@
 
         <Column T="LiteratureProtein" Field="GeneDescription" Title="Description" />
         @*<Column T="LiteratureProtein" Field="RNATissueSpecificity" Title="Specificity" />*@
-        <Column T="LiteratureProtein" Field="RNATissueSpecificityScore" Title="Specificity Score" />
+        <Column T="LiteratureProtein" Field="RNATissueSpecificityScore" Title="RNAseq Specificity Score">
+            <CellTemplate>
+                <MudNumericField @bind-Value="@context.RNATissueSpecificityScore" Format="N0" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
+            </CellTemplate>
+        </Column>
         @*<Column T="LiteratureProtein" Field="RNATissueSpecicNX" Title="Specific NX" />*@
-        <Column T="LiteratureProtein" Field="Mass">
+        <Column T="LiteratureProtein" Field="Mass" Title="Mass kDa">
             <CellTemplate>
-                <MudNumericField @bind-Value="@context.Mass" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
+                <MudNumericField @bind-Value="@context.Mass" Format="N0" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
             </CellTemplate>
         </Column>
-        <Column T="LiteratureProtein" Field="GOAnnotations">
+        <Column T="LiteratureProtein" Field="GOAnnotations" Title="GO Annotations">
             <CellTemplate>
-                <MudNumericField @bind-Value="@context.GOAnnotations" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
+                <MudNumericField @bind-Value="@context.GOAnnotations" Format="N0" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
             </CellTemplate>
         </Column>
-        <Column T="LiteratureProtein" Field="PubmedCitations">
+        <Column T="LiteratureProtein" Field="PubmedCitations" Title="Pubmed Citations" InitialDirection="SortDirection.Descending">
             <CellTemplate>
-                <MudNumericField @bind-Value="@context.PubmedCitations" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
+                <MudNumericField @bind-Value="@context.PubmedCitations" Format="N0" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
             </CellTemplate>
         </Column>
-        <Column T="LiteratureProtein" Field="AntibodyCount">
+        <Column T="LiteratureProtein" Field="AntibodyCount" Title="Antibody Count">
             <CellTemplate>
-                <MudNumericField @bind-Value="@context.AntibodyCount" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
+                <MudNumericField @bind-Value="@context.AntibodyCount" Format="N0" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
             </CellTemplate>
         </Column>
 
@@ -141,7 +145,7 @@
     }
 
     private List<BreadcrumbItem> _breadCrumbs = new List<BreadcrumbItem>
-    {
+{
         new BreadcrumbItem("Home", href: "#"),
         new BreadcrumbItem("Tissues", href: @"Tissues"),
         new BreadcrumbItem("Proteins", href: null, disabled: true)

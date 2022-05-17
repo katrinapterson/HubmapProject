@@ -6,14 +6,17 @@
 <MudThemeProvider />
 <h1>Smart Targets</h1>
 
+
+<MudImage Src="SmartTargets.jpg" Alt="SmartTargets diagram" Elevation="25" Class="rounded-lg" />
+<MudSpacer></MudSpacer>
 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
                OnClick=ShowTissues>Tissues</MudIconButton>
 
 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
                OnClick=ShowProteins>Proteins</MudIconButton>
 
-<MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
-               OnClick=ShowBup>BottomUp</MudIconButton>
+@*<MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
+               OnClick=ShowBup>BottomUp</MudIconButton>*@
 @code{
 
     void ShowTissues()
@@ -26,8 +29,8 @@
         NavigationManager.NavigateTo("/Proteins");
     }
 
-    void ShowBup()
+    @*void ShowBup()
     {
         NavigationManager.NavigateTo("/BottomUp");
-    }
+    }*@
 }

@@ -15,7 +15,7 @@
     <ToolBarContent>
     </ToolBarContent>
     <Columns>
-        <Column T="Tissue" Field="Name" Title="Tissue" />
+        <Column T="Tissue" Field="Name" Title="Tissue" InitialDirection="SortDirection.Ascending"/>
         <Column T="Tissue" Field="Proteins" Title="Protein Count">
             <CellTemplate>
                 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
@@ -25,14 +25,14 @@
             </CellTemplate>
         </Column>
         @*<Column T="Tissue" Field="UniqueProteins" Title="Unique Protein Count" />*@
-        <Column T="Tissue" Field="UniqueProteinsCount" Title="Unique Protein Count">
+        @*<Column T="Tissue" Field="UniqueProteinsCount" Title="Unique Protein Count">
             <CellTemplate>
                 <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
                                OnClick="@((e) => ShowUniqueProteins(@context.Name))">
                     @context.UniqueProteins.Count()
                 </MudIconButton>
             </CellTemplate>
-        </Column>
+        </Column>*@
     </Columns>
     <PagerContent>
         <MudDataGridPager T="Tissue" />
@@ -57,10 +57,10 @@
         NavigationManager.NavigateTo($"/Proteins?tissue={tissue}");
     }
 
-    void ShowUniqueProteins(string tissue)
+    @*void ShowUniqueProteins(string tissue)
     {
         NavigationManager.NavigateTo($"/Proteins?UniqueTo={tissue}");
-    }
+    }*@
 
         private List<BreadcrumbItem> _breadCrumbs = new List<BreadcrumbItem>
     {
