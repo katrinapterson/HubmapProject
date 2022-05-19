@@ -6,17 +6,39 @@
 <MudThemeProvider />
 <h1>Smart Targets</h1>
 
+<MudGrid >
+    <MudItem xs="12" Class="d-flex align-center justify-center mud-width-full py-8">
+        <MudImage Fluid="true" Src="Images/SmartTargets.jpg" Alt="SmartTargets diagram" Elevation="25" Class="rounded-lg" Width="700"/>
+    </MudItem>
 
-<MudImage Src="SmartTargets.jpg" Alt="SmartTargets diagram" Elevation="25" Class="rounded-lg" />
-<MudSpacer></MudSpacer>
-<MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
-               OnClick=ShowTissues>Tissues</MudIconButton>
 
-<MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
-               OnClick=ShowProteins>Proteins</MudIconButton>
+    <MudItem xs="4"></MudItem>
+    <MudItem xs="4" sm="2" Class="d-flex align-center justify-center mud-width-full py-8">
+        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
+                       OnClick=ShowTissues>Tissues</MudIconButton>
+    </MudItem>
+    <MudItem xs="4" sm="2" Class="d-flex align-center justify-center mud-width-full py-8">
+        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
+                       OnClick=ShowProteins>Proteins</MudIconButton>
+    </MudItem>
+    <MudItem xs="4"></MudItem>
 
-@*<MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
-               OnClick=ShowBup>BottomUp</MudIconButton>*@
+</MudGrid>
+
+
+@*<MudGrid Justify="Justify.Center">
+    <MudItem>
+        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
+                       OnClick=ShowTissues>Tissues</MudIconButton>
+    </MudItem>
+    <MudItem>
+        <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small"
+                       OnClick=ShowProteins>Proteins</MudIconButton>
+    </MudItem>
+</MudGrid>*@
+
+
+
 @code{
 
     void ShowTissues()
@@ -29,8 +51,4 @@
         NavigationManager.NavigateTo("/Proteins");
     }
 
-    @*void ShowBup()
-    {
-        NavigationManager.NavigateTo("/BottomUp");
-    }*@
 }

@@ -20,6 +20,7 @@
   <ItemGroup>
     <Content Remove="Data\BupService.razor" />
     <Content Remove="Data\BupService.cs" />
+    <Content Remove="wwwroot\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Data\Bup.razor" />
@@ -28,5 +29,8 @@
     <Content Update="wwwroot\SmartTargets.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 </Project>

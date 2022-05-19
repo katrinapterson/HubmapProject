@@ -21,7 +21,7 @@
     </h5>
 }
 
-<MudLink Href=@($"https://beta.uniprot.org/uniprotkb/{Accession}/entry")>Uniprot Website</MudLink>
+<MudLink Href=@($"https://www.uniprot.org/uniprot/{Accession}") Target="_blank">Uniprot Website</MudLink>
 
 
 @if (ProteinBupInfos.Count() != 0)
@@ -39,17 +39,17 @@
             <Column T=Bup Field="Dataset" />
             <Column T=Bup Field="NormRank" Title="Normalized Rank" InitialDirection="SortDirection.Descending">
                 <CellTemplate>
-                    <MudNumericField @bind-Value="@context.NormRank" Format="N2" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
+                    <MudTextField @bind-Value="@context.NormRank" Format="N2" ReadOnly="true" DisableUnderLine="true"></MudTextField>
                 </CellTemplate>
             </Column>
             <Column T=Bup Field="Rank">
                 <CellTemplate>
-                    <MudNumericField @bind-Value="@context.Rank" Format="N0" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
+                    <MudTextField @bind-Value="@context.Rank" Format="N0" ReadOnly="true" DisableUnderLine="true"></MudTextField>
                 </CellTemplate>
             </Column>
             <Column T=Bup Field="Abundance">
                 <CellTemplate>
-                    <MudNumericField @bind-Value="@context.Abundance" Format="E2" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
+                    <MudTextField @bind-Value="@context.Abundance" Format="E2" ReadOnly="true" DisableUnderLine="true"></MudTextField>
                 </CellTemplate>
             </Column>
         </Columns>
@@ -75,27 +75,27 @@ else
         <Columns>
             <Column T="Antibody" Field="AntibodyID" Title="ID">
                 <CellTemplate>
-                    <MudLink Href=@($"https://antibodyregistry.org/search?q={@context.AntibodyID}")>@context.AntibodyID</MudLink>
+                    <MudLink Href=@($"https://antibodyregistry.org/search?q={@context.AntibodyID}") Target="_blank">@context.AntibodyID</MudLink>
                 </CellTemplate>
             </Column>
             @*<Column T="Antibody" Field="AntibodyName" Title="Name" />*@
             <Column T="Antibody" Title="Name">
                 <CellTemplate>
-                    <MudTextField T=string Lines="5" Text="@context.AntibodyName" ReadOnly="true"></MudTextField>
+                    <MudTextField T=string Lines="5" Text="@context.AntibodyName" ReadOnly="true" DisableUnderLine="true"></MudTextField>
                 </CellTemplate>
             </Column>
             @*<Column T="Antibody" Field="TargetAntigen" />*@
             <Column T="Antibody" Title="Target Antigen">
                 <CellTemplate>
-                    <MudTextField T=string Lines="5" Text="@context.TargetAntigen" ReadOnly="true"></MudTextField>
+                    <MudTextField T=string Lines="5" Text="@context.TargetAntigen" ReadOnly="true" DisableUnderLine="true"></MudTextField>
                 </CellTemplate>
             </Column>
             @*<Column T="Antibody" Field="Clonality" />*@
             <Column T="Antibody" Field="Reference" />
-            <Column T="Antibody" Field="CloneID" />
+            <Column T="Antibody" Field="CloneID" Title="Clone ID"/>
             <Column T="Antibody" Field="HostOrganism" Title="Host Organism" />
             <Column T="Antibody" Field="Vendor" />
-            <Column T="Antibody" Field="CatNum" />
+            <Column T="Antibody" Field="CatNum" Title="Cat Num"/>
         </Columns>
         <PagerContent>
             <MudDataGridPager T="Antibody" />

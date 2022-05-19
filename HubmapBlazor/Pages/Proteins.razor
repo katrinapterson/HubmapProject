@@ -41,28 +41,28 @@
         @*<Column T="LiteratureProtein" Field="RNATissueSpecificity" Title="Specificity" />*@
         <Column T="LiteratureProtein" Field="RNATissueSpecificityScore" Title="RNAseq Specificity Score">
             <CellTemplate>
-                <MudNumericField @bind-Value="@context.RNATissueSpecificityScore" Format="N0" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
+                <MudTextField @bind-Value="@context.RNATissueSpecificityScore" Format="N0" ReadOnly="true" DisableUnderLine="true"></MudTextField>
             </CellTemplate>
         </Column>
         @*<Column T="LiteratureProtein" Field="RNATissueSpecicNX" Title="Specific NX" />*@
         <Column T="LiteratureProtein" Field="Mass" Title="Mass kDa">
             <CellTemplate>
-                <MudNumericField @bind-Value="@context.Mass" Format="N0" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
+                <MudTextField @bind-Value="@context.Mass" Format="N0" ReadOnly="true" DisableUnderLine="true"></MudTextField>
             </CellTemplate>
         </Column>
         <Column T="LiteratureProtein" Field="GOAnnotations" Title="GO Annotations">
             <CellTemplate>
-                <MudNumericField @bind-Value="@context.GOAnnotations" Format="N0" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
+                <MudTextField @bind-Value="@context.GOAnnotations" Format="N0" ReadOnly="true" DisableUnderLine="true"></MudTextField>
             </CellTemplate>
         </Column>
         <Column T="LiteratureProtein" Field="PubmedCitations" Title="Pubmed Citations" InitialDirection="SortDirection.Descending">
             <CellTemplate>
-                <MudNumericField @bind-Value="@context.PubmedCitations" Format="N0" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
+                <MudTextField @bind-Value="@context.PubmedCitations" Format="N0" ReadOnly="true" DisableUnderLine="true"></MudTextField>
             </CellTemplate>
         </Column>
         <Column T="LiteratureProtein" Field="AntibodyCount" Title="Antibody Count">
             <CellTemplate>
-                <MudNumericField @bind-Value="@context.AntibodyCount" Format="N0" HideSpinButtons="true" ReadOnly="true" DisableUnderLine="true"></MudNumericField>
+                <MudTextField @bind-Value="@context.AntibodyCount" Format="N0" ReadOnly="true" DisableUnderLine="true"></MudTextField>
             </CellTemplate>
         </Column>
 
