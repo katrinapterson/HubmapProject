@@ -3,7 +3,7 @@
     public class LiteratureProtein
     {
         public LiteratureProtein(string gene, string ensembl, string uniprotAccession, string geneDescription, string hpaEvidence,
-            string rnaTissueSpecificity, int rnaTissueSpecificityScore, string rnaTissueSpecificNX, string uniprotName, int mass,
+            string rnaTissueSpecificity, int rnaTissueSpecificityScore, string rnaTissueSpecificNX, string uniprotName, double mass,
             int goAnnotations, int geneID, int pubmedCitations, int antibodyCount)
         {
             Gene = gene;
@@ -31,7 +31,7 @@
         public int RNATissueSpecificityScore { get; set; }
         public string RNATissueSpecicNX { get; set; }
         public string UniprotName { get; set; }
-        public int Mass { get; set; }
+        public double Mass { get; set; }
         public int GOAnnotations { get; set; }
         public int GeneID { get; set; }
         public int PubmedCitations { get; set; }

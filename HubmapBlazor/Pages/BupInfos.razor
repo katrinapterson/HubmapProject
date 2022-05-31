@@ -96,10 +96,6 @@
             return true;
         if (x.UniprotAccession.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
-        if (x.UniprotName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        if (x.GeneDescription.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
         if (x.CommonTissue.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         if (x.Dataset.Contains(_searchString, StringComparison.OrdinalIgnoreCase))

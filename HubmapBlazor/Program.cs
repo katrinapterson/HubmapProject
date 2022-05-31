@@ -5,8 +5,8 @@ using MudBlazor;
 using MudBlazor.Services;
 
 
-var bupService = new BupService(@"Resources/NewBupData");
-var literatureProteinService = new LiteratureProteinService(@"Resources/NewestLiteratureData");
+var bupService = new BupService(@"Resources/bup_data.tsv");
+var literatureProteinService = new LiteratureProteinService(@"Resources/literature_data.tsv");
 
 var builder = WebApplication.CreateBuilder(args);
 

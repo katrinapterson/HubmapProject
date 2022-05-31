@@ -12,7 +12,7 @@
                 while (!reader.EndOfStream)
                 {
                     var lines = reader.ReadLine();
-                    var values = lines.Split(",");
+                    var values = lines.Split("\t");
 
                     double toDouble(string value)
                     {
@@ -42,11 +42,9 @@
                         values[0],
                         values[1],
                         values[2],
-                        values[3],
-                        values[4],
-                        toDouble(values[5]),
-                        toInt(values[6]),
-                        toDouble(values[7]));
+                        toDouble(values[3]),
+                        toInt(values[4]),
+                        toDouble(values[5]));
 
                     _bupInfos.Add(aBup);
                 }
