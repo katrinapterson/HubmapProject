@@ -11,7 +11,7 @@
                 while (!reader.EndOfStream)
                 {
                     var lines = reader.ReadLine();
-                    var values = lines.Split(",");
+                    var values = lines.Split("\t");
 
                     int toInt(string value)
                     {
@@ -24,7 +24,17 @@
                             return 0;
                         }
                     }
-
+                    double toDouble(string value)
+                    {
+                        if (double.TryParse(value, out double i))
+                        {
+                            return Math.Round(i, 3);
+                        }
+                        else
+                        {
+                            return 0.0;
+                        }
+                    }
                     var s = new LiteratureProtein(
                         values[0],
                         values[1],
@@ -35,7 +45,7 @@
                         toInt(values[6]),
                         values[7],
                         values[8],
-                        toInt(values[9])/1000,
+                        toDouble(values[9])/1000,
                         toInt(values[10]),
                         toInt(values[11]),
                         toInt(values[12]),

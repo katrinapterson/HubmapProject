@@ -29,11 +29,11 @@
     </ToolBarContent>
     <Columns>
         <Column T="LiteratureProtein" Field="Gene" />
-        <Column T="LiteratureProtein" Field="Ensembl" />
+        @*<Column T="LiteratureProtein" Field="Ensembl" />*@
 
         <Column T="LiteratureProtein" Field="UniprotAccession" Title="Accession">
             <CellTemplate>
-                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => ShowBup(@context.UniprotAccession, context.Gene))">@context.UniprotAccession</MudIconButton>
+                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => ShowBup(@context.UniprotAccession, context.Gene, context.Ensembl))">@context.UniprotAccession</MudIconButton>
             </CellTemplate>
         </Column>
 
@@ -47,7 +47,7 @@
         @*<Column T="LiteratureProtein" Field="RNATissueSpecicNX" Title="Specific NX" />*@
         <Column T="LiteratureProtein" Field="Mass" Title="Mass kDa">
             <CellTemplate>
-                <MudTextField @bind-Value="@context.Mass" Format="N0" ReadOnly="true" DisableUnderLine="true"></MudTextField>
+                <MudTextField @bind-Value="@context.Mass" Format="N2" ReadOnly="true" DisableUnderLine="true"></MudTextField>
             </CellTemplate>
         </Column>
         <Column T="LiteratureProtein" Field="GOAnnotations" Title="GO Annotations">
@@ -139,9 +139,9 @@
     };
 
 
-    void ShowBup(string accession, string gene)
+    void ShowBup(string accession, string gene, string ensembl)
     {
-        NavigationManager.NavigateTo($"/Protein/{gene}/{accession}");
+        NavigationManager.NavigateTo($"/Protein/{gene}/{accession}/{ensembl}");
     }
 
     private List<BreadcrumbItem> _breadCrumbs = new List<BreadcrumbItem>

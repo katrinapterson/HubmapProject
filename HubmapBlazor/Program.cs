@@ -6,8 +6,8 @@ using MudBlazor;
 using MudBlazor.Services;
 
 
-var bupService = new BupService(@"../HubmapProject/Resources/NewBupData");
-var literatureProteinService = new LiteratureProteinService(@"../HubmapProject/Resources/NewestLiteratureData");
+var bupService = new BupService(@"../HubmapProject/Resources/bup_data.tsv");
+var literatureProteinService = new LiteratureProteinService(@"../HubmapProject/Resources/literature_data.tsv");
 
 var builder = WebApplication.CreateBuilder(args);
 

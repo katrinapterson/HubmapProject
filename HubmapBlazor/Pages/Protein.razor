@@ -1,4 +1,4 @@
-﻿@page "/Protein/{Gene}/{Accession}"
+﻿@page "/Protein/{Gene}/{Accession}/{Ensembl}"
 @inject BupService BupService
 @inject AntibodyService AntibodyService
 @inject LiteratureProteinService LiteratureProteinService
@@ -15,17 +15,19 @@
 @if (ProteinBupInfos.Any())
 {
     <h5>
-        Name: @ProteinBupInfos.First().UniprotName
-        <MudSpacer></MudSpacer>
-        Description: @ProteinBupInfos.First().GeneDescription
+        @*Name: @ProteinBupInfos.First().UniprotName*@
+        @*<MudSpacer></MudSpacer>*@
+        @*Description: @ProteinBupInfos.First().GeneDescription*@
     </h5>
 }
 
 <MudLink Href=@($"https://www.uniprot.org/uniprot/{Accession}") Target="_blank">Uniprot Website</MudLink>
-
+<MudSpacer></MudSpacer>
 
 @if (ProteinBupInfos.Count() != 0)
 {
+
+    <MudLink Href=@($"https://www.proteinatlas.org/{Ensembl}") Target="_blank">Human Protein Atlas</MudLink>
 
     <MudDataGrid Items="@ProteinBupInfos" Sortable="true" Filterable="true" RowsPerPage="5" QuickFilter="@_BupFilter">
         <ToolBarContent>
@@ -114,6 +116,9 @@ else
 
     [Parameter]
     public string? Gene { get; set; }
+
+    [Parameter]
+    public string? Ensembl { get; set; }
 
     private IEnumerable<Bup> ProteinBupInfos = Enumerable.Empty<Bup>();
     private IEnumerable<Antibody> Antibodies = Enumerable.Empty<Antibody>();
