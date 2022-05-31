@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -18,12 +18,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="Data\BupService.razor" />
-    <Content Remove="Data\BupService.cs" />
     <Content Remove="wwwroot\Images\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Data\Bup.razor" />
+    <Content Remove="wwwroot\Resources\" />
+    <Content Remove="wwwroot\Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="wwwroot\SmartTargets.jpg">
