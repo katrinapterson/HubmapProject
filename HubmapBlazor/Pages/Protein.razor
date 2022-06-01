@@ -93,11 +93,16 @@ else
                 </CellTemplate>
             </Column>
             @*<Column T="Antibody" Field="Clonality" />*@
-            <Column T="Antibody" Field="Reference" />
-            <Column T="Antibody" Field="CloneID" Title="Clone ID"/>
+            <Column T="Antibody" Title="Reference">
+                <CellTemplate>
+                    <MudTextField Format="Typo.body2" T=string Lines="5" Text="@context.Reference" ReadOnly="true" DisableUnderLine="true"></MudTextField>
+                </CellTemplate>
+            </Column>
+            <Column T="Antibody" Field="CloneID" Title="Clone ID" />
             <Column T="Antibody" Field="HostOrganism" Title="Host Organism" />
             <Column T="Antibody" Field="Vendor" />
-            <Column T="Antibody" Field="CatNum" Title="Cat Num"/>
+            <Column T="Antibody" Field="CatNum" Title="Cat Num" />
+            <Column T="Antibody" Field="RefCount" Title="Reference Count" />
         </Columns>
         <PagerContent>
             <MudDataGridPager T="Antibody" />

@@ -11,6 +11,20 @@ namespace HubmapBlazor.Data
             using (StreamReader reader = new StreamReader(file))
             {
                 _antibodyTableInfos = new List<Antibody>();
+
+                int toInt(string value)
+                {
+                    if (int.TryParse(value, out int i))
+                    {
+                        return i;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+
+
                 while (!reader.EndOfStream)
                 {
                     var lines = reader.ReadLine();
@@ -25,8 +39,8 @@ namespace HubmapBlazor.Data
                         values[6],
                         values[7],
                         values[8],
-                        values[9]);
-
+                        values[9],
+                        toInt(values[10]));
                     _antibodyTableInfos.Add(anAntibody);
                 }
             }
