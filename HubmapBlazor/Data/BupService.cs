@@ -44,7 +44,9 @@
                         values[2],
                         toDouble(values[3]),
                         toInt(values[4]),
-                        toDouble(values[5]));
+                        toDouble(values[5]),
+                        values[6],
+                        values[7]);
 
                     _bupInfos.Add(aBup);
                 }
