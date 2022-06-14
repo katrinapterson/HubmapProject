@@ -4,7 +4,7 @@
     {
         public LiteratureProtein(string gene, string ensembl, string uniprotAccession, string geneDescription, string hpaEvidence,
             string rnaTissueSpecificity, int rnaTissueSpecificityScore, string rnaTissueSpecificNX, string uniprotName, double mass,
-            int goAnnotations, int geneID, int pubmedCitations, int antibodyCount)
+            int goAnnotations, int geneID, int pubmedCitations, int antibodyCount, string hgnc, string asctb_tissues, string asctb_uberon)
         {
             Gene = gene;
             Ensembl = ensembl;
@@ -20,6 +20,9 @@
             GeneID = geneID;
             PubmedCitations = pubmedCitations;
             AntibodyCount = antibodyCount;
+            HGNC = hgnc;
+            ASCTB_Tissues = asctb_tissues;
+            ASCT_Uberon = asctb_uberon;
         }
 
         public string Gene { get; set; }
@@ -36,5 +39,8 @@
         public int GeneID { get; set; }
         public int PubmedCitations { get; set; }
         public int AntibodyCount { get; set; }
+        public string HGNC { get; set; }
+        public string ASCTB_Tissues { get; set; }
+        public string ASCT_Uberon { get; set; }
     }
 }

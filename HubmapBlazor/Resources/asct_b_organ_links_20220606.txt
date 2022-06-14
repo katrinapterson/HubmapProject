@@ -1,0 +1,26 @@
+Organ	Tablr	Reporter
+Blood	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/blood-pelvis.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Blood-v1.1&playground=false
+Blood vasculature	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/blood-vasculature.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Blood_Vasculature-v1.1&playground=false
+Bone marrow	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/bone-marrow-pelvis.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=bone_marrow-v1.1&playground=false
+Brain	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/brain.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=brain-v1.1&playground=false
+Eye	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/eye.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Eye-v1.0&playground=false
+Fallopian tube	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/fallopian-tube.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Fallopian_Tube-v1.0&playground=false
+Heart	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/heart.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=heart-v1.1&playground=false
+Kidney	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/kidney.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=kidney-v1.1&playground=false
+Knee	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/knee.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Knee-v1.0&playground=false
+Large intestine	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/large-intestine.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=large_intestine-v1.1&playground=false
+Liver	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/liver.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Liver-v1.0&playground=false
+Lung	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/lung.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Lung-v1.1&playground=false
+Lymph node	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/lymph-node.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=lymph_nodes-v1.1&playground=false
+Lymph vasculature	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/lymph-vasculature.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Lymph_Vasculature-v1.0&playground=false
+Ovary	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/ovary.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Ovary-v1.0&playground=false
+Pancreas	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/pancreas.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Pancreas-v1.0&playground=false
+Peripheral nervous system	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/peripheral-nervous-system.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Peripheral_Nervous_System-v1.0&playground=false
+Prostate	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/prostate.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Prostate-v1.0&playground=false
+Skin	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/skin.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=skin-v1.1&playground=false
+Small intestine	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/small-intestine.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Small_Intestine-v1.0&playground=false
+Spleen	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/spleen.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=spleen-v1.1&playground=false
+Thoracic thymus	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/thymus.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=thymus-v1.1&playground=false
+Ureter	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/ureter.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Ureter-v1.0&playground=false
+Urinary bladder	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/urinary-bladder.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Urinary_Bladder-v1.0&playground=false
+Uterus	https://hubmapconsortium.github.io/ccf-releases/v1.1/docs/asct-b/uterus.html	https://hubmapconsortium.github.io/ccf-asct-reporter/vis?selectedOrgans=Uterus-v1.0&playground=false

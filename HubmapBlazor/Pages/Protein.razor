@@ -2,6 +2,7 @@
 @inject BupService BupService
 @inject AntibodyService AntibodyService
 @inject LiteratureProteinService LiteratureProteinService
+@inject ASCTBService ASCTBService
 @using HubmapBlazor.Data
 
 <MudThemeProvider />
@@ -114,6 +115,31 @@ else
     <h6>No Antibodies</h6>
 }
 
+
+
+@if (ASCTBs.Count() != 0)
+    {
+<MudDataGrid Items="@ASCTBs" Sortable="true" Filterable="true" RowsPerPage="5">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">ASCTB</MudText>
+        <MudSpacer />
+    </ToolBarContent>
+    <Columns>
+        <Column T="ASCTB" Field="Organ" />
+        <Column T="ASCTB" Field="Table">
+            <CellTemplate>
+                <MudLink Href=@($"{@context.Tablr}") Target="_blank">Table link</MudLink>
+            </CellTemplate>
+        </Column>
+        <Column T="ASCTB" Field="Reporter">
+            <CellTemplate>
+                <MudLink Href=@($"{@context.Reporter}") Target="_blank">Reporter link</MudLink>
+            </CellTemplate>
+        </Column>
+    </Columns>
+</MudDataGrid>
+    }
+
 @code {
 
     [Parameter]
@@ -127,6 +153,8 @@ else
 
     private IEnumerable<Bup> ProteinBupInfos = Enumerable.Empty<Bup>();
     private IEnumerable<Antibody> Antibodies = Enumerable.Empty<Antibody>();
+    private IEnumerable<ASCTB> ASCTBs = Enumerable.Empty<ASCTB>();
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -134,7 +162,7 @@ else
         ProteinBupInfos = BupService.GetAbundantBups(BupInfos);
 
         Antibodies = AntibodyService.GetAntibodyGene(Gene);
-
+        ASCTBs = ASCTBService.GetTissues(LiteratureProteinService.GetASCTBTissues(Accession));
     }
 
 

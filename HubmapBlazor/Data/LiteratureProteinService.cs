@@ -45,11 +45,14 @@
                         toInt(values[6]),
                         values[7],
                         values[8],
-                        toDouble(values[9])/1000,
+                        toDouble(values[9]) / 1000,
                         toInt(values[10]),
                         toInt(values[11]),
                         toInt(values[12]),
-                        toInt(values[13]));
+                        toInt(values[13]),
+                        values[14],
+                        values[15],
+                        values[16]);
 
                     _literatures.Add(s);
                 }
@@ -99,6 +102,18 @@
             }
             return null;
         }
+
+
+        public string GetASCTBTissues(string accession)
+        {
+            foreach (var literature in _literatures)
+            {
+                if (literature.UniprotAccession == accession) return literature.ASCTB_Tissues;
+            }
+            return null;
+        }
+
+
 
     }
 }
