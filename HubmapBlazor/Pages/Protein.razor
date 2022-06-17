@@ -118,27 +118,29 @@ else
 
 
 @if (ASCTBs.Count() != 0)
-    {
-<MudDataGrid Items="@ASCTBs" Sortable="true" Filterable="true" RowsPerPage="5">
-    <ToolBarContent>
-        <MudText Typo="Typo.h6">ASCTB</MudText>
-        <MudSpacer />
-    </ToolBarContent>
-    <Columns>
-        <Column T="ASCTB" Field="Organ" />
-        <Column T="ASCTB" Field="Table">
-            <CellTemplate>
-                <MudLink Href=@($"{@context.Tablr}") Target="_blank">Table link</MudLink>
-            </CellTemplate>
-        </Column>
-        <Column T="ASCTB" Field="Reporter">
-            <CellTemplate>
-                <MudLink Href=@($"{@context.Reporter}") Target="_blank">Reporter link</MudLink>
-            </CellTemplate>
-        </Column>
-    </Columns>
-</MudDataGrid>
-    }
+{
+   
+
+    <MudDataGrid Items="@ASCTBs" Sortable="true" Filterable="true" RowsPerPage="5">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">ASCT+B</MudText>
+            <MudSpacer />
+        </ToolBarContent>
+        <Columns>
+            <Column T="ASCTB" Field="Organ" Title="Tissue"/>
+            <Column T="ASCTB" Field="Table">
+                <CellTemplate>
+                    <MudLink Href=@($"{@context.Tablr}") Target="_blank">HuBMAP ASCT+B Table</MudLink>
+                </CellTemplate>
+            </Column>
+            <Column T="ASCTB" Field="Reporter">
+                <CellTemplate>
+                    <MudLink Href=@($"{@context.Reporter}") Target="_blank">HuBMAP ASCT+B Reporter</MudLink>
+                </CellTemplate>
+            </Column>
+        </Columns>
+    </MudDataGrid>
+ }
 
 @code {
 

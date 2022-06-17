@@ -4,6 +4,7 @@ namespace HubmapBlazor.Data
 	public class ASCTBService
 	{
 		private ICollection<ASCTB> _ASCTBs = new List<ASCTB>();
+		private Dictionary<string, string>  ASCTBDict = new Dictionary<string, string>();
 
 		public ASCTBService(string file)
 		{
@@ -18,6 +19,8 @@ namespace HubmapBlazor.Data
 						values[0],
 						values[1],
 						values[2]);
+
+					ASCTBDict.Add(values[0], values[2]);
 
 					_ASCTBs.Add(a);
 				}
@@ -36,6 +39,18 @@ namespace HubmapBlazor.Data
             }
 
 			return list;
+        }
+
+
+		public string GetLink(string tissue)
+        {
+			if (ASCTBDict.TryGetValue(tissue, out var value)){
+				return value;
+            }
+            else
+            {
+				return "not a link";
+            }
         }
 
 	} 

@@ -35,6 +35,8 @@
                             return 0.0;
                         }
                     }
+
+                    
                     var s = new LiteratureProtein(
                         values[0],
                         values[1],
