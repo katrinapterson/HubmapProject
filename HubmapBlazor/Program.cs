@@ -21,7 +21,7 @@ builder.Services.AddSingleton(_ => bupService);
 builder.Services.AddSingleton(_ => literatureProteinService);
 builder.Services.AddSingleton(_ => new AntibodyService(@"Resources/antibody_table_unconjugated_with_counts.tsv"));
 builder.Services.AddSingleton(_ => new TissueProvider(bupService, literatureProteinService));
-
+builder.Services.AddSingleton(_ => new ASCTBService(@"Resources/asct_b_organ_links_20220606.txt"));
 
 builder.Services.AddSingleton(_ => new WeatherForecastService());
 
