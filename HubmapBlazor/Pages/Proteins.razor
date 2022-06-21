@@ -34,7 +34,7 @@
 
         <Column T="LiteratureProtein" Field="UniprotAccession" Title="Accession">
             <CellTemplate>
-                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => ShowBup(@context.UniprotAccession, context.Gene, context.Ensembl))">@context.UniprotAccession</MudIconButton>
+                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => ShowBup(@context.UniprotAccession))">@context.UniprotAccession</MudIconButton>
             </CellTemplate>
         </Column>
 
@@ -154,9 +154,9 @@
     };
 
 
-    void ShowBup(string accession, string gene, string ensembl)
+    void ShowBup(string accession)
     {
-        NavigationManager.NavigateTo($"/Protein/{gene}/{accession}/{ensembl}");
+        NavigationManager.NavigateTo($"/Protein/{accession}");
     }
 
 

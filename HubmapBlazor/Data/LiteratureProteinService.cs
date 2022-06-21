@@ -106,16 +106,15 @@
         }
 
 
-        public string GetASCTBTissues(string accession)
+        public LiteratureProtein GetProtein(string accession)
         {
             foreach (var literature in _literatures)
             {
-                if (literature.UniprotAccession == accession) return literature.ASCTB_Tissues;
+                if (literature.UniprotAccession == accession) return literature;
             }
             return null;
         }
 
-
-
+        
     }
 }
