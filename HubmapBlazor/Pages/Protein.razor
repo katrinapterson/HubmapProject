@@ -1,4 +1,4 @@
-﻿@page "/Protein/{Gene}/{Accession}/{Ensembl}"
+﻿@page "/Protein/{Accession}"
 @inject BupService BupService
 @inject AntibodyService AntibodyService
 @inject LiteratureProteinService LiteratureProteinService
@@ -28,7 +28,7 @@
 @if (ProteinBupInfos.Count() != 0)
 {
 
-    <MudLink Href=@($"https://www.proteinatlas.org/{Ensembl}") Target="_blank">Human Protein Atlas</MudLink>
+    <MudLink Href=@($"https://www.proteinatlas.org/{ProteinLiterature.Ensembl}") Target="_blank">Human Protein Atlas</MudLink>
 
     <MudDataGrid Items="@ProteinBupInfos" Sortable="true" Filterable="true" RowsPerPage="5" QuickFilter="@_BupFilter">
         <ToolBarContent>
@@ -63,7 +63,7 @@
 }
 else
 {
-    <h6>No Bottom Up data</h6>
+    <h5>No Bottom Up data</h5>
 }
 
 @if (Antibodies.Count() != 0)
@@ -112,15 +112,21 @@ else
 }
 else
 {
-    <h6>No Antibodies</h6>
+    <h5>No Antibodies</h5>
 }
 
 
 
 @if (ASCTBs.Count() != 0)
 {
-   
-
+        <br />
+        <br />
+        <h6>
+            @ProteinLiterature.HGNC
+            <br />
+            ASCT+B Uberons: @ProteinLiterature.ASCT_Uberon
+        </h6>
+    
     <MudDataGrid Items="@ASCTBs" Sortable="true" Filterable="true" RowsPerPage="5">
         <ToolBarContent>
             <MudText Typo="Typo.h6">ASCT+B</MudText>
@@ -148,10 +154,9 @@ else
     public string? Accession { get; set; }
 
     [Parameter]
-    public string? Gene { get; set; }
+    public LiteratureProtein? ProteinLiterature { get; set; }
 
-    [Parameter]
-    public string? Ensembl { get; set; }
+    
 
     private IEnumerable<Bup> ProteinBupInfos = Enumerable.Empty<Bup>();
     private IEnumerable<Antibody> Antibodies = Enumerable.Empty<Antibody>();
@@ -163,8 +168,9 @@ else
         var BupInfos = BupService.GetAccessionBupInfos(Accession);
         ProteinBupInfos = BupService.GetAbundantBups(BupInfos);
 
-        Antibodies = AntibodyService.GetAntibodyGene(Gene);
-        ASCTBs = ASCTBService.GetTissues(LiteratureProteinService.GetASCTBTissues(Accession));
+        ProteinLiterature = LiteratureProteinService.GetProtein(Accession);
+        Antibodies = AntibodyService.GetAntibodyGene(ProteinLiterature.Gene);
+        ASCTBs = ASCTBService.GetTissues(ProteinLiterature.ASCTB_Tissues);
     }
 
 
