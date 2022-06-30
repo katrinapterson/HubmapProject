@@ -2,13 +2,13 @@
 {
     public class BupService
     {
-
-        private ICollection<Bup> _bupInfos = new List<Bup>();
-        public BupService(string file)
+        private ICollection<TissueBottomUp> _tissueBupInfos = new List<TissueBottomUp>();
+        private ICollection<CellLineBottomUp> _cellLineBupInfos = new List<CellLineBottomUp>();
+        public BupService(string tissues, string cellLines)
         {
-            using (StreamReader reader = new StreamReader(file))
+            using (StreamReader reader = new StreamReader(tissues))
             {
-                _bupInfos = new List<Bup>();
+                _tissueBupInfos = new List<TissueBottomUp>();
                 while (!reader.EndOfStream)
                 {
                     var lines = reader.ReadLine();
@@ -38,7 +38,7 @@
                         }
                     }
 
-                    Bup aBup = new Bup(
+                    TissueBottomUp aBup = new TissueBottomUp(
                         values[0],
                         values[1],
                         values[2],
@@ -48,18 +48,63 @@
                         values[6],
                         values[7]);
 
-                    _bupInfos.Add(aBup);
+                    _tissueBupInfos.Add(aBup);
+                }
+            }
+
+            using (StreamReader reader = new StreamReader(cellLines))
+            {
+                _cellLineBupInfos = new List<CellLineBottomUp>();
+                while (!reader.EndOfStream)
+                {
+                    var lines = reader.ReadLine();
+                    var values = lines.Split("\t");
+
+                    double toDouble(string value)
+                    {
+                        if (double.TryParse(value, out double i))
+                        {
+                            return Math.Round(i, 3);
+                        }
+                        else
+                        {
+                            return 0.0;
+                        }
+                    }
+
+                    int toInt(string value)
+                    {
+                        if (int.TryParse(value, out int i))
+                        {
+                            return i;
+                        }
+                        else
+                        {
+                            return 0;
+                        }
+                    }
+
+                    //TODO: make sure columns are right
+                    CellLineBottomUp aBup = new CellLineBottomUp(
+                        values[0],
+                        values[1],
+                        values[2],
+                        toDouble(values[3]),
+                        toInt(values[4]),
+                        toDouble(values[5]),
+                        values[6],
+                        values[7]);
+
+                    _cellLineBupInfos.Add(aBup);
                 }
             }
         }
 
-
-
-        public ICollection<Bup> GetAccessionBupInfos(string UniprotAccession)
+        public ICollection<TissueBottomUp> GetAccessionTissueBupInfos(string UniprotAccession)
         {
-            var list = new List<Bup>();
+            var list = new List<TissueBottomUp>();
 
-            foreach (var bup in _bupInfos)
+            foreach (var bup in _tissueBupInfos)
             {
                 if (bup.UniprotAccession == UniprotAccession)
                 {
@@ -67,28 +112,40 @@
                 }
             }
             return list;
-
         }
 
-        public IEnumerable<Bup> GetBupInfos() => (_bupInfos.Where(a => a != null)).Skip(1);
+        public ICollection<CellLineBottomUp> GetAccessionCellLineBupInfos(string UniprotAccession)
+        {
+            var list = new List<CellLineBottomUp>();
+
+            foreach (var bup in _cellLineBupInfos)
+            {
+                if (bup.UniprotAccession == UniprotAccession)
+                {
+                    list.Add(bup);
+                }
+            }
+            return list;
+        }
+
+        public IEnumerable<TissueBottomUp> GetTissueBupInfos() => (_tissueBupInfos.Where(a => a != null)).Skip(1);
 
 
-        public IEnumerable<Bup> GetBupsWithTissue(string tissue) => _bupInfos.Where(a => a.CommonTissue == tissue);
+        public IEnumerable<TissueBottomUp> GetBupsWithTissue(string tissue) => _tissueBupInfos.Where(a => a.CommonTissue == tissue);
 
 
         public IEnumerable<string> TissueList()
         {
             var list = new HashSet<string>();
-            foreach (var bupInfo in _bupInfos.Skip(1))
+            foreach (var bupInfo in _tissueBupInfos.Skip(1))
             {
                 list.Add(bupInfo.CommonTissue);
             }
 
-
             return list;
         }
 
-        public IEnumerable<string> TissueAccessions(IEnumerable<Bup> bupInfos)
+        public IEnumerable<string> GetAccessions(IEnumerable<IBottomUp> bupInfos)
         {
             var list = new HashSet<string>();
             foreach (var bup in bupInfos)
@@ -98,67 +155,8 @@
             return list;
         }
 
+        public IEnumerable<TissueBottomUp> GetAbundantTissueBups(IEnumerable<TissueBottomUp> bupInfos) => bupInfos.Where(a => a.Abundance != 0);
 
-        public IEnumerable<Bup> GetAbundantBups(IEnumerable<Bup> bupInfos) => bupInfos.Where(a => a.Abundance != 0);
-
-
-
-        public List<string> GetUniqueProteins(string tissue, IEnumerable<Bup> bupInfos)
-        {
-            var proteinTissues = new Dictionary<string, HashSet<string>>();
-
-            foreach (var bup in bupInfos)
-            {
-                if (proteinTissues.ContainsKey(bup.UniprotAccession))
-                    proteinTissues[bup.UniprotAccession].Add(bup.CommonTissue);
-                else
-                    proteinTissues.Add(bup.UniprotAccession, new HashSet<string>() { bup.CommonTissue });
-            }
-
-
-            var accessionList = new List<string>();
-
-            foreach (var kvp in proteinTissues)
-            {
-                if (kvp.Value.Contains(tissue) && kvp.Value.Count == 1)
-                {
-                    accessionList.Add(kvp.Key);
-                }
-            }
-
-            return accessionList;
-        }
-
-
-        public Dictionary<string, HashSet<string>> GetUniqueDict(IEnumerable<Bup> bupInfos)
-        {
-            var proteinTissues = new Dictionary<string, HashSet<string>>();
-
-            foreach (var bup in bupInfos)
-            {
-                if (proteinTissues.ContainsKey(bup.UniprotAccession))
-                    proteinTissues[bup.UniprotAccession].Add(bup.CommonTissue);
-                else
-                    proteinTissues.Add(bup.UniprotAccession, new HashSet<string>() { bup.CommonTissue });
-            }
-
-            return proteinTissues;
-        }
-
-        public List<string> GetUnique(string tissue, Dictionary<string, HashSet<string>> proteinTissues)
-        {
-            var accessionList = new List<string>();
-
-            foreach (var kvp in proteinTissues)
-            {
-                if (kvp.Value.Contains(tissue) && kvp.Value.Count == 1)
-                {
-                    accessionList.Add(kvp.Key);
-                }
-            }
-
-            return accessionList;
-        }
-        
+        public IEnumerable<CellLineBottomUp> GetAbundantCellLineBups(IEnumerable<CellLineBottomUp> bupInfos) => bupInfos.Where(a => a.Abundance != 0);       
     }
 }

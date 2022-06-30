@@ -13,55 +13,94 @@
     Protein @Accession
 </h1>
 
-@if (ProteinBupInfos.Any())
+@if (ProteinTissueBupInfos.Any())
 {
     <h5>
-        Name: @ProteinBupInfos.First().UniprotName
+        Name: @ProteinTissueBupInfos.First().UniprotName
         <MudSpacer></MudSpacer>
-        Description: @ProteinBupInfos.First().GeneDescription
+        Description: @ProteinTissueBupInfos.First().GeneDescription
+    </h5>
+}
+else if (ProteinCellLineBupInfos.Any())
+{
+    <h5>
+        Name: @ProteinCellLineBupInfos.First().UniprotName
+        <MudSpacer></MudSpacer>
+        Description: @ProteinCellLineBupInfos.First().GeneDescription
     </h5>
 }
 
 <MudLink Href=@($"https://www.uniprot.org/uniprot/{Accession}") Target="_blank">Uniprot Website</MudLink>
 <MudSpacer></MudSpacer>
+<MudLink Href=@($"https://www.proteinatlas.org/{ProteinLiterature.Ensembl}") Target="_blank">Human Protein Atlas</MudLink>
 
-@if (ProteinBupInfos.Count() != 0)
+@if (ProteinTissueBupInfos.Count() != 0)
 {
-
-    <MudLink Href=@($"https://www.proteinatlas.org/{ProteinLiterature.Ensembl}") Target="_blank">Human Protein Atlas</MudLink>
-
-    <MudDataGrid Items="@ProteinBupInfos" Sortable="true" Filterable="true" RowsPerPage="5" QuickFilter="@_BupFilter">
+    <MudDataGrid Items="@ProteinTissueBupInfos" Sortable="true" Filterable="true" RowsPerPage="5" QuickFilter="@_BupFilter">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Bottom Up</MudText>
+            <MudText Typo="Typo.h6">Tissue Bottom Up</MudText>
             <MudSpacer />
             <MudTextField @bind-Value="_BupSearchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
-                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <Columns>
-            <Column T=Bup Field="CommonTissue" Title="Tissue" />
-            <Column T=Bup Field="Dataset" />
-            <Column T=Bup Field="NormRank" Title="Normalized Rank" InitialDirection="SortDirection.Descending">
+            <Column T=TissueBottomUp Field="CommonTissue" Title="Tissue" />
+            <Column T=TissueBottomUp Field="Dataset" />
+            <Column T=TissueBottomUp Field="NormRank" Title="Normalized Rank" InitialDirection="SortDirection.Descending">
                 <CellTemplate>
                     <MudTextField @bind-Value="@context.NormRank" Format="N2" ReadOnly="true" DisableUnderLine="true"></MudTextField>
                 </CellTemplate>
             </Column>
-            <Column T=Bup Field="Rank">
+            <Column T=TissueBottomUp Field="Rank">
                 <CellTemplate>
                     <MudTextField @bind-Value="@context.Rank" Format="N0" ReadOnly="true" DisableUnderLine="true"></MudTextField>
                 </CellTemplate>
             </Column>
-            <Column T=Bup Field="Abundance">
+            <Column T=TissueBottomUp Field="Abundance">
                 <CellTemplate>
                     <MudTextField @bind-Value="@context.Abundance" Format="E2" ReadOnly="true" DisableUnderLine="true"></MudTextField>
                 </CellTemplate>
             </Column>
         </Columns>
         <PagerContent>
-            <MudDataGridPager T="Bup" />
+            <MudDataGridPager T="TissueBottomUp" />
         </PagerContent>
     </MudDataGrid>
 }
-else
+@if (ProteinCellLineBupInfos.Count() != 0)
+{
+    <MudDataGrid Items="@ProteinCellLineBupInfos" Sortable="true" Filterable="true" RowsPerPage="5" QuickFilter="@_cellLineBupFilter">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Cell Line Bottom Up</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="_cellLineBupSearchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent>
+        <Columns>
+            <Column T=CellLineBottomUp Field="CellLine" Title="Cell Line" />
+            <Column T=CellLineBottomUp Field="Dataset" />
+            <Column T=CellLineBottomUp Field="NormRank" Title="Normalized Rank" InitialDirection="SortDirection.Descending">
+                <CellTemplate>
+                    <MudTextField @bind-Value="@context.NormRank" Format="N2" ReadOnly="true" DisableUnderLine="true"></MudTextField>
+                </CellTemplate>
+            </Column>
+            <Column T=CellLineBottomUp Field="Rank">
+                <CellTemplate>
+                    <MudTextField @bind-Value="@context.Rank" Format="N0" ReadOnly="true" DisableUnderLine="true"></MudTextField>
+                </CellTemplate>
+            </Column>
+            <Column T=CellLineBottomUp Field="Abundance">
+                <CellTemplate>
+                    <MudTextField @bind-Value="@context.Abundance" Format="E2" ReadOnly="true" DisableUnderLine="true"></MudTextField>
+                </CellTemplate>
+            </Column>
+        </Columns>
+        <PagerContent>
+            <MudDataGridPager T="CellLineBottomUp" />
+        </PagerContent>
+    </MudDataGrid>
+}
+@if (ProteinTissueBupInfos.Count() == 0 && ProteinCellLineBupInfos.Count() == 0)
 {
     <h5>No Bottom Up data</h5>
 }
@@ -74,7 +113,7 @@ else
             <MudText Typo="Typo.h6">Antibodies</MudText>
             <MudSpacer />
             <MudTextField @bind-Value="_AntibodySearchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
-                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <Columns>
             <Column T="Antibody" Field="AntibodyID" Title="ID">
@@ -120,21 +159,21 @@ else
 
 @if (ASCTBs.Count() != 0)
 {
+    <br />
+    <br />
+    <h6>
+        @ProteinLiterature.HGNC
         <br />
-        <br />
-        <h6>
-            @ProteinLiterature.HGNC
-            <br />
-            ASCT+B Uberons: @ProteinLiterature.ASCT_Uberon
-        </h6>
-    
+        ASCT+B Uberons: @ProteinLiterature.ASCT_Uberon
+    </h6>
+
     <MudDataGrid Items="@ASCTBs" Sortable="true" Filterable="true" RowsPerPage="5">
         <ToolBarContent>
             <MudText Typo="Typo.h6">ASCT+B</MudText>
             <MudSpacer />
         </ToolBarContent>
         <Columns>
-            <Column T="ASCTB" Field="Organ" Title="Tissue"/>
+            <Column T="ASCTB" Field="Organ" Title="Tissue" />
             <Column T="ASCTB" Field="Table">
                 <CellTemplate>
                     <MudLink Href=@($"{@context.Tablr}") Target="_blank">HuBMAP ASCT+B Table</MudLink>
@@ -147,7 +186,7 @@ else
             </Column>
         </Columns>
     </MudDataGrid>
- }
+}
 
 @code {
 
@@ -157,34 +196,48 @@ else
     [Parameter]
     public LiteratureProtein? ProteinLiterature { get; set; }
 
-    
-
-    private IEnumerable<Bup> ProteinBupInfos = Enumerable.Empty<Bup>();
+    private IEnumerable<TissueBottomUp> ProteinTissueBupInfos = Enumerable.Empty<TissueBottomUp>();
+    private IEnumerable<CellLineBottomUp> ProteinCellLineBupInfos = Enumerable.Empty<CellLineBottomUp>();
     private IEnumerable<Antibody> Antibodies = Enumerable.Empty<Antibody>();
     private IEnumerable<ASCTB> ASCTBs = Enumerable.Empty<ASCTB>();
 
-
     protected override async Task OnInitializedAsync()
     {
-        var BupInfos = BupService.GetAccessionBupInfos(Accession);
-        ProteinBupInfos = BupService.GetAbundantBups(BupInfos);
+        var tissueBupInfos = BupService.GetAccessionTissueBupInfos(Accession);
+        ProteinTissueBupInfos = BupService.GetAbundantTissueBups(tissueBupInfos);
+
+        var cellLineBupInfos = BupService.GetAccessionCellLineBupInfos(Accession);
+        ProteinCellLineBupInfos = BupService.GetAbundantCellLineBups(cellLineBupInfos);
 
         ProteinLiterature = LiteratureProteinService.GetProtein(Accession);
         Antibodies = AntibodyService.GetAntibodyGene(ProteinLiterature.Gene);
         ASCTBs = ASCTBService.GetTissues(ProteinLiterature.ASCTB_Tissues);
     }
 
-
     private string _BupSearchString;
 
     // quick filter - filter gobally across multiple columns with the same input
-    private Func<Bup, bool> _BupFilter => x =>
+    private Func<TissueBottomUp, bool> _BupFilter => x =>
     {
         if (string.IsNullOrWhiteSpace(_BupSearchString))
             return true;
         if (x.CommonTissue.Contains(_BupSearchString, StringComparison.OrdinalIgnoreCase))
             return true;
         if (x.Dataset.Contains(_BupSearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    };
+
+    private string _cellLineBupSearchString;
+
+    // quick filter - filter gobally across multiple columns with the same input
+    private Func<CellLineBottomUp, bool> _cellLineBupFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(_cellLineBupSearchString))
+            return true;
+        if (x.CellLine.Contains(_cellLineBupSearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (x.Dataset.Contains(_cellLineBupSearchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     };
