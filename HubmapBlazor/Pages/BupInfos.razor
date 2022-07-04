@@ -21,29 +21,29 @@
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <Columns>
-        <Column T="Bup" Field="UniprotAccession" Title="Accession" />
-        <Column T="Bup" Field="UniprotName" Title="Name" />
-        <Column T="Bup" Field="GeneDescription" Title="Description" />
-        <Column T="Bup" Field="CommonTissue" Title="Tissue" />
-        <Column T="Bup" Field="Dataset" />
-        <Column T="Bup" Field="Abundance">
+        <Column T="TissueBottomUp" Field="UniprotAccession" Title="Accession" />
+        <Column T="TissueBottomUp" Field="UniprotName" Title="Name" />
+        <Column T="TissueBottomUp" Field="GeneDescription" Title="Description" />
+        <Column T="TissueBottomUp" Field="CommonTissue" Title="Tissue" />
+        <Column T="TissueBottomUp" Field="Dataset" />
+        <Column T="TissueBottomUp" Field="Abundance">
             <CellTemplate>
                 <MudNumericField @bind-Value="@context.Abundance" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
             </CellTemplate>
         </Column>
-        <Column T="Bup" Field="Rank">
+        <Column T="TissueBottomUp" Field="Rank">
             <CellTemplate>
                 <MudNumericField @bind-Value="@context.Rank" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
             </CellTemplate>
         </Column>
-        <Column T="Bup" Field="NormRank" Title="Normal Rank">
+        <Column T="TissueBottomUp" Field="NormRank" Title="Normal Rank">
             <CellTemplate>
                 <MudNumericField @bind-Value="@context.NormRank" Format="N2" HideSpinButtons="true" ReadOnly="true"></MudNumericField>
             </CellTemplate>
         </Column>
     </Columns>
     <PagerContent>
-        <MudDataGridPager T="Bup" />
+        <MudDataGridPager T="TissueBottomUp" />
     </PagerContent>
 </MudDataGrid>
 
@@ -57,12 +57,12 @@
 
 
 
-    private IEnumerable<Bup> bupInfos = Enumerable.Empty<Bup>();
+    private IEnumerable<TissueBottomUp> bupInfos = Enumerable.Empty<TissueBottomUp>();
 
     protected override async Task OnInitializedAsync()
     {
-        var bups = BupService.GetBupInfos();
-        bupInfos = BupService.GetAbundantBups(bups);
+        var bups = BupService.GetTissueBupInfos();
+        bupInfos = BupService.GetAbundantTissueBups(bups);
 
         var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
 
@@ -71,26 +71,26 @@
         {
             tissue = _tissue.First();
 
-            var accessionList = BupService.GetUniqueProteins(tissue, bupInfos);
+           // var accessionList = BupService.GetUniqueProteins(tissue, bupInfos);
 
-            bupInfos = Enumerable.Empty<Bup>();
+            bupInfos = Enumerable.Empty<TissueBottomUp>();
 
-            foreach (var accession in accessionList)
-            {
-                var uniqueBups = BupService.GetAccessionBupInfos(accession);
-                var abundantBups = BupService.GetAbundantBups(uniqueBups);
-                foreach (var bup in abundantBups)
-                {
-                    bupInfos = bupInfos.Append(bup);
-                }
-            }
+            //foreach (var accession in accessionList)
+            //{
+            //    var uniqueBups = BupService.GetAccessionTissueBupInfos(accession);
+            //    var abundantBups = BupService.GetAbundantTissueBups(uniqueBups);
+            //    foreach (var bup in abundantBups)
+            //    {
+            //        bupInfos = bupInfos.Append(bup);
+            //    }
+            //}
         }
     }
 
     private string _searchString;
 
     // quick filter - filter gobally across multiple columns with the same input
-    private Func<Bup, bool> _quickFilter => x =>
+    private Func<TissueBottomUp, bool> _quickFilter => x =>
     {
         if (string.IsNullOrWhiteSpace(_searchString))
             return true;

@@ -4,7 +4,7 @@ using HubmapBlazor.Data;
 using MudBlazor;
 using MudBlazor.Services;
 
-var bupService = new BupService(@"Resources/bup_data.tsv");
+var bupService = new BupService(@"Resources/bup_data.tsv", @"Resources/bup_data.tsv");
 var literatureProteinService = new LiteratureProteinService(@"Resources/literature_data.tsv");
 
 var builder = WebApplication.CreateBuilder(args);

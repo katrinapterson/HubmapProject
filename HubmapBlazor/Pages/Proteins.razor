@@ -97,9 +97,6 @@
     private IEnumerable<LiteratureProtein> literatureProteins = Enumerable.Empty<LiteratureProtein>();
     protected override async Task OnInitializedAsync()
     {
-
-        literatureProteins = LiteratureProteinService.GetProteins();
-
         var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
 
         if (QueryHelpers.ParseQuery(uri.Query).
@@ -107,19 +104,13 @@
         {
             Tissue = tissue.First();
             var bupTissues = BupService.GetBupsWithTissue(Tissue);
-            var abundantBups = BupService.GetAbundantBups(bupTissues);
-            var bupAccessions = BupService.TissueAccessions(abundantBups);
+            var abundantBups = BupService.GetAbundantTissueBups(bupTissues);
+            var bupAccessions = BupService.GetAccessions(abundantBups);
             literatureProteins = LiteratureProteinService.GetTissueAccessions(bupAccessions);
         }
-
-        if (QueryHelpers.ParseQuery(uri.Query).
-        TryGetValue("UniqueTo", out var uniqueTissue))
+        else
         {
-            UniqueTissue = uniqueTissue.First();
-
-            var accessionList = BupService.GetUniqueProteins(UniqueTissue, BupService.GetAbundantBups(BupService.GetBupInfos()));
-
-            literatureProteins = LiteratureProteinService.GetTissueAccessions(accessionList);
+                   literatureProteins = LiteratureProteinService.GetProteins(); 
         }
     }
 
