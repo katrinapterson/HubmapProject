@@ -3,6 +3,7 @@
 @inject LiteratureProteinService LiteratureProteinService
 @inject BupService BupService
 @inject ASCTBService ASCTBService
+@inject IJSRuntime JSRuntime 
 @using HubmapBlazor.Data
 
 
@@ -17,10 +18,7 @@
     <h3>Tissue: @Tissue</h3>
 }
 
-@if (UniqueTissue != null)
-{
-    <h3>Unique to: @UniqueTissue</h3>
-}
+
 
 <MudDataGrid MultiSelection="true" Items="@literatureProteins" Sortable="true" Filterable="true" QuickFilter="@_quickFilter">
     <ToolBarContent>
@@ -30,11 +28,10 @@
     </ToolBarContent>
     <Columns>
         <Column T="LiteratureProtein" Field="Gene" />
-        @*<Column T="LiteratureProtein" Field="Ensembl" />*@
 
         <Column T="LiteratureProtein" Field="UniprotAccession" Title="Accession">
             <CellTemplate>
-                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => ShowBup(@context.UniprotAccession))">@context.UniprotAccession</MudIconButton>
+                <MudIconButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => ShowBup(@context.UniprotAccession, e))" @oncontextmenu="@((e) => ShowBup(@context.UniprotAccession, e))">@context.UniprotAccession</MudIconButton>
             </CellTemplate>
         </Column>
 
@@ -92,11 +89,18 @@
     public string? Tissue { get; set; }
 
     [Parameter]
-    public string? UniqueTissue { get; set; }
+    public EventCallback<MouseEventArgs> OnShowBup { get; set; }
+
+
+    [Parameter]
+    public string? Accession { get; set; }
 
     private IEnumerable<LiteratureProtein> literatureProteins = Enumerable.Empty<LiteratureProtein>();
     protected override async Task OnInitializedAsync()
     {
+
+        literatureProteins = LiteratureProteinService.GetProteins();
+
         var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
 
         if (QueryHelpers.ParseQuery(uri.Query).
@@ -104,13 +108,9 @@
         {
             Tissue = tissue.First();
             var bupTissues = BupService.GetBupsWithTissue(Tissue);
-            var abundantBups = BupService.GetAbundantTissueBups(bupTissues);
+            var abundantBups = BupService.GetAbundantBups(bupTissues);
             var bupAccessions = BupService.GetAccessions(abundantBups);
             literatureProteins = LiteratureProteinService.GetTissueAccessions(bupAccessions);
-        }
-        else
-        {
-                   literatureProteins = LiteratureProteinService.GetProteins(); 
         }
     }
 
@@ -145,16 +145,25 @@
     };
 
 
-    void ShowBup(string accession)
+    private void ShowBup(string accession, MouseEventArgs e)
     {
-        NavigationManager.NavigateTo($"/Protein/{accession}");
+        
+        if (e.CtrlKey)
+        {
+            
+            JSRuntime.InvokeAsync<object>("open", $"/Protein/{accession}", "_blank");
+        }
+        else
+        {
+            NavigationManager.NavigateTo($"/Protein/{accession}");
+        }
     }
 
 
     private List<BreadcrumbItem> _breadCrumbs = new List<BreadcrumbItem>
-{
+    {
         new BreadcrumbItem("Home", href: "#"),
         new BreadcrumbItem("Tissues", href: @"Tissues"),
         new BreadcrumbItem("Proteins", href: null, disabled: true)
     };
-}
+    }

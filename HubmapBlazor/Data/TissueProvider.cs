@@ -8,12 +8,12 @@ namespace HubmapBlazor.Data
 		{
             var tissues = bupService.TissueList();
             var bupInfos = bupService.GetTissueBupInfos();
-            var allAbundantBups = bupService.GetAbundantTissueBups(bupInfos);
+            var allAbundantBups = bupService.GetAbundantBups(bupInfos);
 
             foreach (var tissue in tissues)
             {
                 var bupTissues = bupService.GetBupsWithTissue(tissue);
-                var abundantBups = bupService.GetAbundantTissueBups(bupTissues);
+                var abundantBups = bupService.GetAbundantBups(bupTissues);
                 var bupAccessions = bupService.GetAccessions(abundantBups);
                 var literatureProteins = literatureProteinService.GetTissueAccessions(bupAccessions);
                 var proteinCount = literatureProteins.Count();

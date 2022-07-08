@@ -155,8 +155,11 @@
             return list;
         }
 
+        public IEnumerable<IBottomUp> GetAbundantBups(IEnumerable<IBottomUp> bupInfos) => bupInfos.Where(a => a.Abundance != 0);
+
         public IEnumerable<TissueBottomUp> GetAbundantTissueBups(IEnumerable<TissueBottomUp> bupInfos) => bupInfos.Where(a => a.Abundance != 0);
 
-        public IEnumerable<CellLineBottomUp> GetAbundantCellLineBups(IEnumerable<CellLineBottomUp> bupInfos) => bupInfos.Where(a => a.Abundance != 0);       
+        public IEnumerable<CellLineBottomUp> GetAbundantCellLineBups(IEnumerable<CellLineBottomUp> bupInfos) => bupInfos.Where(a => a.Abundance != 0);
+
     }
 }
