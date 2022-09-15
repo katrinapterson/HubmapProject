@@ -37,11 +37,11 @@
 
         <Column T="LiteratureProtein" Field="GeneDescription" Title="Description" />
         @*<Column T="LiteratureProtein" Field="RNATissueSpecificity" Title="Specificity" />*@
-        <Column T="LiteratureProtein" Field="RNATissueSpecificityScore" Title="RNAseq Specificity Score">
+        @*<Column T="LiteratureProtein" Field="RNATissueSpecificityScore" Title="RNAseq Specificity Score">
             <CellTemplate>
                 <MudTextField @bind-Value="@context.RNATissueSpecificityScore" Format="N0" ReadOnly="true" DisableUnderLine="true"></MudTextField>
             </CellTemplate>
-        </Column>
+        </Column>*@
         @*<Column T="LiteratureProtein" Field="RNATissueSpecicNX" Title="Specific NX" />*@
         <Column T="LiteratureProtein" Field="Mass" Title="Mass (kDa)">
             <CellTemplate>
@@ -61,6 +61,11 @@
         <Column T="LiteratureProtein" Field="AntibodyCount" Title="Antibody Count">
             <CellTemplate>
                 <MudTextField @bind-Value="@context.AntibodyCount" Format="N0" ReadOnly="true" DisableUnderLine="true"></MudTextField>
+            </CellTemplate>
+        </Column>
+        <Column T="LiteratureProtein" Field="CellularLocation" Title="Location">
+            <CellTemplate>
+                <MudTextField Format="Typo.body2" T=string Lines="3" Text="@context.CellularLocation" ReadOnly="true" DisableUnderLine="true"></MudTextField>
             </CellTemplate>
         </Column>
         <Column T="LiteratureProtein" Field="ASCTB_Tissues" Title="ASCT+B Tissues">
