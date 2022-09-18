@@ -9,18 +9,32 @@
 
     <main>
         @*<div class="top-row px-4">
-            <a href="/About" target="_self">About</a>
-        </div>*@
+                <a href="/About" target="_self">About</a>
+            </div>*@
 
         <article class="content px-4">
             @Body
         </article>
 
-        <footer class="page-footer font-small grey lighten-3">
-            <br />
-            © 2022 Kelleher Research Group. Work supported by NIH UH3 CA246635 and P41 GM108569
-            <br />
-        </footer>
+        <!--<footer class="page-footer font-small grey lighten-3">
+            <br />-->
+        @*© 2022 Kelleher Research Group. Work supported by NIH UH3 CA246635 and P41 GM108569*@
+        <!--<br />
+        </footer>-->
     </main>
 </div>
 
+
+<style>
+    .footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: lightgrey;
+    }
+</style>
+
+<div class="footer">
+    <p>2022 Kelleher Research Group. Work supported by NIH UH3 CA246635 and P41 GM108569</p>
+</div>
