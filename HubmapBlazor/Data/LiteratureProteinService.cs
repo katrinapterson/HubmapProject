@@ -36,7 +36,17 @@
                         }
                     }
 
-                    
+                    string removeDuplicates(string value)
+                    {
+                        var values = value.Split(". ");
+                        var set = new HashSet<string>();
+                        foreach (var val in values)
+                        {
+                            set.Add(val);
+                        }
+                        return string.Join(". ", set);
+                    }
+
                     var s = new LiteratureProtein(
                         values[0],
                         values[1],
@@ -54,7 +64,8 @@
                         toInt(values[13]),
                         values[14],
                         values[15],
-                        values[16]);
+                        values[16],
+                        removeDuplicates(values[17]));
 
                     _literatures.Add(s);
                 }

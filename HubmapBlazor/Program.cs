@@ -5,7 +5,7 @@ using MudBlazor;
 using MudBlazor.Services;
 
 var bupService = new BupService(@"Resources/bup_data.tsv", @"Resources/cellline_bup_data.tsv");
-var literatureProteinService = new LiteratureProteinService(@"Resources/literature_data.tsv");
+var literatureProteinService = new LiteratureProteinService(@"Resources/CellLocationInfos.tsv");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +22,7 @@ builder.Services.AddSingleton(_ => literatureProteinService);
 builder.Services.AddSingleton(_ => new AntibodyService(@"Resources/antibody_table_unconjugated_with_counts.tsv"));
 builder.Services.AddSingleton(_ => new TissueProvider(bupService, literatureProteinService));
 builder.Services.AddSingleton(_ => new ASCTBService(@"Resources/asct_b_organ_links_20220606.txt"));
+builder.Services.AddSingleton(_ => new AntibodyDrugService(@"Resources/Antibody_drugs.txt"));
 
 builder.Services.AddSingleton(_ => new WeatherForecastService());
 

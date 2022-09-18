@@ -3,6 +3,7 @@
 @inject AntibodyService AntibodyService
 @inject LiteratureProteinService LiteratureProteinService
 @inject ASCTBService ASCTBService
+@inject AntibodyDrugService AntibodyDrugService
 @using HubmapBlazor.Data
 
 <MudThemeProvider />
@@ -41,7 +42,7 @@ else if (ProteinCellLineBupInfos.Any())
             <MudText Typo="Typo.h6">Tissue Bottom Up</MudText>
             <MudSpacer />
             <MudTextField @bind-Value="_BupSearchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <Columns>
             <Column T=TissueBottomUp Field="CommonTissue" Title="Tissue" />
@@ -74,7 +75,7 @@ else if (ProteinCellLineBupInfos.Any())
             <MudText Typo="Typo.h6">Cell Line Bottom Up</MudText>
             <MudSpacer />
             <MudTextField @bind-Value="_cellLineBupSearchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <Columns>
             <Column T=CellLineBottomUp Field="CellLine" Title="Cell Line" />
@@ -113,7 +114,7 @@ else if (ProteinCellLineBupInfos.Any())
             <MudText Typo="Typo.h6">Antibodies</MudText>
             <MudSpacer />
             <MudTextField @bind-Value="_AntibodySearchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
-                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+                          AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
         </ToolBarContent>
         <Columns>
             <Column T="Antibody" Field="AntibodyID" Title="ID">
@@ -155,7 +156,23 @@ else
     <h5>No Antibodies</h5>
 }
 
-
+@if (AntibodyDrugs.Count() != 0)
+{
+    <br />
+    <br />
+    <MudDataGrid Items="@AntibodyDrugs" Sortable="true" Filterable="true" RowsPerPage="5">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Antibody Therapies</MudText>
+            <MudSpacer />
+        </ToolBarContent>
+        <Columns>
+            <Column T="AntibodyDrug" Field="InternationalName" Title="Non-Proprietary Name" />
+            <Column T="AntibodyDrug" Field="BrandName" Title="Brand Name" />
+            <Column T="AntibodyDrug" Field="TargetAntigen" Title="Target" />
+            <Column T="AntibodyDrug" Field="Indication" Title="First Indication" />
+        </Columns>
+    </MudDataGrid>
+}
 
 @if (ASCTBs.Count() != 0)
 {
@@ -200,6 +217,7 @@ else
     private IEnumerable<CellLineBottomUp> ProteinCellLineBupInfos = Enumerable.Empty<CellLineBottomUp>();
     private IEnumerable<Antibody> Antibodies = Enumerable.Empty<Antibody>();
     private IEnumerable<ASCTB> ASCTBs = Enumerable.Empty<ASCTB>();
+    private IEnumerable<AntibodyDrug> AntibodyDrugs = Enumerable.Empty<AntibodyDrug>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -212,6 +230,7 @@ else
         ProteinLiterature = LiteratureProteinService.GetProtein(Accession);
         Antibodies = AntibodyService.GetAntibodyGene(ProteinLiterature.Gene);
         ASCTBs = ASCTBService.GetTissues(ProteinLiterature.ASCTB_Tissues);
+        AntibodyDrugs = AntibodyDrugService.GetAntibodyDrug(Accession);
     }
 
     private string _BupSearchString;
